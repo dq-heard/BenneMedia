@@ -1,0 +1,307 @@
+/* ========================================================================
+   CASE-STUDY.CSS
+   Case study page: hero, tagline, stat cards. Needs hero entrance keyframes (base.css).
+   ======================================================================== */
+
+/* ========================================================================
+   CASE STUDY HERO: 33/66 split that fills the viewport.
+   Left: game name (h1), blurb, services, CTA.
+   Right: label across the top, then a square cover with a left-hand shadow,
+   details (developer, release date) top right and genre tags bottom right.
+   Below both: a quiet "Enter the Project" cue.
+
+   <section class="case-hero">
+     <div class="container">
+       <div class="case-hero-grid">
+         <div class="case-hero-copy">
+           <h1>Game name</h1>
+           <p>…</p>
+           <div class="case-tags">
+             <p class="case-label" id="services-label">Services</p>
+             <ul class="tag-list" aria-labelledby="services-label"><li>…</li></ul>
+           </div>
+           <a class="btn" href="…">…</a>
+         </div>
+         <div class="case-hero-side">
+           <p class="case-eyebrow">Indie Game Marketing Case Study</p>
+           <div class="case-showcase">
+             <img class="case-cover" src="…" alt="…" width="500" height="500">
+             <div class="case-meta">
+               <dl class="case-details">
+                 <div><dt>Developer</dt><dd>…</dd></div>
+                 <div><dt>Release date</dt><dd><time datetime="2026-01-01">…</time></dd></div>
+               </dl>
+               <div class="case-tags">
+                 <p class="case-label" id="genres-label">Genres</p>
+                 <ul class="tag-list" aria-labelledby="genres-label"><li>…</li></ul>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+       <p class="case-enter"><a href="#project">Enter the Project <span aria-hidden="true">&darr;</span></a></p>
+     </div>
+   </section>
+   ======================================================================== */
+
+.case-hero {
+  display: flex;
+  align-items: center;
+  min-height: 100vh; /* fallback */
+  min-height: 100svh;
+  padding: 6.5rem 0 2rem; /* clears the fixed nav */
+}
+
+.case-hero > .container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.case-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+/* ---------- Left ---------- */
+.case-hero-copy h1 {
+  margin-bottom: 1.25rem;
+  font-size: clamp(2.25rem, 3.6vw, 3.5rem);
+  text-wrap: balance;
+}
+
+.case-hero-copy > p {
+  margin-bottom: 1.5rem;
+  font-size: clamp(1.05rem, 1.4vw, 1.125rem);
+  line-height: 1.6;
+}
+
+.case-hero-copy .case-tags {
+  margin-bottom: 2rem;
+}
+
+/* ---------- Right ---------- */
+.case-eyebrow {
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.9rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 2.1vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text);
+  border-bottom: 1px solid rgb(var(--lavender-rgb) / 0.35);
+}
+
+.case-showcase {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+/* Square, and sized so the whole hero still fits the viewport height.
+     Shadow falls bottom-left here, so the room for it is on that side. */
+.case-cover {
+  display: block;
+  width: min(100%, max(16rem, calc(100svh - 21rem)));
+  max-width: 500px; /* the image's real size, so it never upscales */
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  box-shadow: -7px 7px 10px rgb(var(--lavender-rgb) / 0.7);
+  margin: 0 0 10px 7px;
+}
+
+.case-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-width: 0;
+  text-align: right;
+}
+
+.case-details {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+}
+
+.case-label,
+.case-details dt {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lavender);
+}
+
+.case-details dd {
+  margin: 0;
+  font-size: 1.125rem;
+  color: var(--text);
+}
+
+.case-meta .tag-list {
+  justify-content: flex-end;
+}
+
+.case-tags .case-label {
+  margin-bottom: 0.6rem;
+}
+
+/* ---------- Enter the Project ---------- */
+.case-enter {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.case-enter a {
+  color: var(--text-2);
+  text-decoration: none;
+}
+
+.case-enter a:hover,
+.case-enter a:focus-visible {
+  color: var(--cyan);
+}
+
+/* ---------- Entrance (same calm fade-up as the home hero) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .case-hero-copy,
+  .case-hero-side,
+  .case-enter {
+    animation: heroIn 0.7s ease both;
+  }
+
+  .case-hero-side {
+    animation-delay: 0.15s;
+  }
+
+  .case-enter {
+    animation-delay: 0.3s;
+  }
+}
+
+/* ---------- Tablet / mobile: stack ---------- */
+@media (max-width: 991.98px) {
+  .case-hero {
+    min-height: 0;
+    padding: 6rem 0 3rem;
+  }
+
+  .case-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .case-cover {
+    width: min(100%, 22rem);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .case-showcase {
+    grid-template-columns: 1fr;
+  }
+
+  .case-cover {
+    margin-inline: 0 0;
+    width: 100%;
+  }
+
+  .case-meta {
+    text-align: left;
+  }
+
+  .case-meta .tag-list {
+    justify-content: flex-start;
+  }
+
+  .case-hero-copy .btn {
+    width: 100%;
+  }
+}
+
+/* ========================================================================
+     CASE STUDY INTRO: tagline on the left, "The Challenge" on the right (the
+     statement grid), then a row of stat cards. Each card is a label at the top
+     and its CMS value at the bottom. Cards are a <dl>: label = dt, value = dd.
+     ======================================================================== */
+
+/* A tagline that looks like a heading but isn't one (the h2 is on the right) */
+.case-tagline {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.75rem;
+  margin: var(--space-lg) 0 0;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  min-height: 9.5rem;
+  padding: 1.5rem 1.75rem;
+}
+
+.stat-card dt {
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lavender);
+}
+
+.stat-card dd {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text);
+}
+
+/* Not clickable, so no hover lift */
+.glass-card.stat-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 991.98px) {
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    min-height: 0;
+  }
+}

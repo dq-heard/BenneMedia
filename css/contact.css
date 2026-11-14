@@ -1,0 +1,69 @@
+/* ========================================================================
+   CONTACT.CSS
+   Contact page layout. Needs forms.css.
+   ======================================================================== */
+
+/* ========================================================================
+   CONTACT: form on the left, intro and CTA on the right.
+   In the HTML the intro comes first (so the h1 is read first and phones show
+   it above the form); on desktop the form is placed in the left column.
+   The form styles (.field, .choice, .form-status) are reusable for any form.
+   ======================================================================== */
+
+.contact {
+  padding-block: clamp(7.5rem, 14vh, 10rem) var(--space-xl);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: start;
+  gap: clamp(2rem, 6vw, 5rem);
+}
+
+.contact-form-wrap {
+  grid-column: 1;
+  grid-row: 1;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.contact-aside {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.contact-aside h1 {
+  margin-bottom: 1.25rem;
+}
+
+.contact-aside p {
+  margin-bottom: 1.25rem;
+}
+
+.contact-aside > p:first-of-type {
+  font-size: 1.25rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.contact-aside .btn {
+  margin-bottom: 2.25rem;
+}
+
+@media (max-width: 991.98px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-wrap,
+  .contact-aside {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .contact-form-wrap .btn {
+    width: 100%;
+  }
+}

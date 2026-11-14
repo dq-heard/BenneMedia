@@ -1,0 +1,157 @@
+/* ========================================================================
+   HERO: image + caption on the left, headline/subheading/CTAs on the right.
+   Fills the viewport on desktop; stacks with text first on mobile so the
+   headline and CTAs are visible without scrolling.
+
+   Markup:
+   <section class="hero" id="home">
+     <div class="container hero-grid">
+       <figure class="hero-media">
+         <img class="img-fx" src="..." alt="..." width="..." height="...">
+         <figcaption class="hero-caption">Caption text</figcaption>
+       </figure>
+       <div class="hero-copy">
+         <h1>Headline</h1>
+         <p class="hero-sub">Subheading</p>
+         <div class="btn-row btn-row--center">
+           <a class="btn btn-quiz" href="#">Take the quiz</a>
+           <a class="btn" href="#">Buy the guide</a>
+           <a class="btn btn-outline" href="#">Book a consultation</a>
+         </div>
+       </div>
+     </div>
+   </section>
+   ======================================================================== */
+
+.hero {
+  display: flex;
+  align-items: center;
+  min-height: 100vh; /* fallback */
+  min-height: 100svh; /* stays stable as mobile URL bars collapse */
+  padding: 6.5rem 0 3rem; /* clears the fixed nav */
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+/* ---------- Left: image + caption ---------- */
+.hero-media {
+  margin: 0;
+  /* Room on the right/bottom so the offset shadow isn't clipped */
+  padding: 0 12px 12px 0;
+}
+
+.hero-media img {
+  width: 100%;
+  /* Tall enough to feel dominant, short enough to fit the viewport */
+  max-height: calc(100svh - 14rem);
+  min-height: 320px;
+  object-fit: cover;
+}
+
+.hero-caption {
+  margin-top: 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: right;
+  color: var(--text-2);
+}
+
+/* ---------- Right: copy ---------- */
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-copy h1 {
+  margin-bottom: 1.25rem;
+  /* Column is narrower than the page, so a bit smaller than the global h1 */
+  font-size: clamp(2.5rem, 4.6vw, 4rem);
+}
+
+.hero-sub {
+  max-width: 34rem;
+  margin: 0 auto 2.25rem;
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.6;
+}
+
+/* ---------- Entrance: calm, one-time, CSS only ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-media,
+  .hero-copy > * {
+    animation: heroIn 0.7s ease both;
+  }
+
+  .hero-copy > :nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .hero-copy > :nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .hero-copy > :nth-child(3) {
+    animation-delay: 0.3s;
+  }
+}
+
+/* ---------- Product hero: portrait image, left-aligned copy ---------- */
+.hero-media--portrait img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100svh - 12rem);
+  min-height: 0;
+  margin-inline: auto;
+}
+
+.hero-copy--left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.hero-copy--left .hero-sub {
+  margin: 0;
+}
+
+.product-price {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--mint);
+}
+
+.hero-copy--left .btn-row {
+  margin: 0 0 2rem;
+}
+
+/* ---------- Tablet / mobile: stack, text first ---------- */
+@media (max-width: 991.98px) {
+  .hero {
+    min-height: 0;
+    padding: 6rem 0 3rem;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .hero-copy {
+    order: -1;
+  }
+
+  .hero-media img {
+    max-height: 60svh;
+    min-height: 0;
+  }
+}

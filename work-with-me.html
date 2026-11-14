@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Site Title</title>
+    <meta name="description" content="Page description." />
+    <meta name="theme-color" content="#12141A" />
+
+    <!-- Must run before the stylesheets so scroll-reveal never flashes -->
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Work+Sans:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap (optional: grid, utilities, navbar collapse) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+
+    <!-- Site CSS: order matters, so these come after Bootstrap -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+    <link rel="stylesheet" href="css/text-sections.css" />
+    <link rel="stylesheet" href="css/cards.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+  </head>
+
+  <body>
+    <!-- Fixed background; page content sits above it (z-index: 1) -->
+    <cube-field></cube-field>
+
+    <!-- ===== Nav ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top" aria-label="Main">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <img src="images/bms-cube-logo.png" alt="Site name" />
+          BMS
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <!-- Link names are placeholders; main.js sets .active from the URL -->
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="/work-with-me.html">Work With Me</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/guides.html">Guides</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/case-studies.html">Case Studies</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact.html">Contact</a>
+            </li>
+            <li class="nav-item ms-lg-3">
+              <a class="btn btn-quiz btn-sm" href="/quiz">Take the Quiz</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <section class="page-intro">
+        <div class="container">
+          <h1>Game Marketing Built Around What You're Trying to Accomplish</h1>
+          <p>
+            Benne Media Solutions provides PR and marketing strategy and
+            execution for indie game developers, tabletop creators, and other
+            creator-led projects.
+          </p>
+          <p>
+            You shouldn't need to diagnose your own marketing problem before
+            seeking help.
+          </p>
+          <p>
+            Start with what you're trying to accomplish. We'll determine which
+            combination of PR, Steam strategy, creator outreach, community
+            building, content, email, research, paid campaigns, or launch
+            support belongs inside the solution.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="cards-head">
+            <h2>How We Can Help</h2>
+          </div>
+          <div class="cards-grid">
+            <article class="info-card glass-card" data-scroll>
+              <h3>Game Launch Strategy</h3>
+              <p>
+                Build a clear marketing roadmap around your development
+                timeline, launch goals, audience, platforms, messaging, and
+                available resources.
+              </p>
+            </article>
+            <article class="info-card glass-card" data-scroll>
+              <h3>Steam Visibility & Wishlist Strategy</h3>
+              <p>
+                Improve how players discover, understand, and respond to your
+                game before launch, with strategy focused on your Steam presence
+                and wishlist opportunities.
+              </p>
+            </article>
+            <article class="info-card glass-card" data-scroll>
+              <h3>Creator & Influencer Outreach</h3>
+              <p>
+                Identify the right creators for your game and build outreach
+                around genuine audience fit instead of chasing the biggest
+                follower counts.
+              </p>
+            </article>
+            <article class="info-card glass-card" data-scroll>
+              <h3>Gaming PR & Press Strategy</h3>
+              <p>
+                Build stronger pitches, press materials, media targeting, and
+                outreach strategies designed around how gaming journalists
+                evaluate stories.
+              </p>
+            </article>
+            <article class="info-card glass-card" data-scroll>
+              <h3>Community & Audience Building</h3>
+              <p>
+                Turn awareness into connection by building systems that help
+                potential players become followers, community members,
+                advocates, and eventually customers.
+              </p>
+            </article>
+            <article class="info-card glass-card" data-scroll>
+              <h3>Marketing Audits & Consulting</h3>
+              <p>
+                Already doing marketing but unsure what's working? We'll
+                identify the gaps, opportunities, and highest-priority changes
+                before you spend more time or money.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="cards-head">
+            <h2>Where Are You Right Now?</h2>
+          </div>
+          <div class="cards-grid">
+            <article class="info-card glass-card" data-scroll>
+              <h3>I'm still figuring out my marketing.</h3>
+              <p>
+                Take the Launch Strategy Quiz to identify the biggest gap in
+                your current strategy.
+              </p>
+              <a class="btn btn-sm" href="/page">Take the Quiz</a>
+            </article>
+            <article class="info-card glass-card" data-scroll>
+              <h3>I want to do it myself.</h3>
+              <p>
+                Explore practical marketing guides designed for indie developers
+                and small teams.
+              </p>
+              <a class="btn btn-sm" href="/guides.html">Grab a Guide</a>
+            </article>
+            <article class="info-card glass-card" data-scroll>
+              <h3>I need someone in this with me.</h3>
+              <p>
+                Schedule a meeting today and work directly with Junae on
+                strategy and execution.
+              </p>
+              <a class="btn btn-sm" href="/contact.html">Book a Call</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section statement" id="…">
+        <div class="container statement-grid">
+          <div class="statement-head" data-scroll>
+            <h2 data-scroll>Who This Is For</h2>
+            <p>
+              Benne Media Solutions is built for ambitious developers and teams
+              creating games worth discovering.
+            </p>
+          </div>
+          <div class="statement-body" data-scroll data-delay="100">
+            <ul>
+              <li>Solo developers preparing for launch</li>
+              <li>
+                Indie development teams without an internal marketing department
+              </li>
+              <li>
+                Growing studios that need senior marketing strategy without
+                building a full department
+              </li>
+              <li>Developers who started marketing later than planned</li>
+              <li>Teams struggling with Steam wishlists or visibility</li>
+              <li>
+                Games preparing for announcements, demos, festivals,
+                crowdfunding, Early Access, or full release
+              </li>
+              <li>Teams that need creator, press, or community strategy</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="cards-head">
+            <h2>See the Strategy in Action</h2>
+          </div>
+          <div class="cards-grid">
+            <article class="info-card case-card glass-card" data-scroll>
+              <figure class="case-media">
+                <img
+                  class="img-fx"
+                  src="/images/capsule_616x353.jpg"
+                  alt="…"
+                  width="800"
+                  height="500"
+                  loading="lazy"
+                />
+              </figure>
+              <h3>Obstacle Overdrive</h3>
+              <dl class="case-facts">
+                <div>
+                  <dt>Problem</dt>
+                  <dd>…</dd>
+                </div>
+                <div>
+                  <dt>Strategy</dt>
+                  <dd>…</dd>
+                </div>
+                <div class="case-fact--result">
+                  <dt>Result</dt>
+                  <dd>…</dd>
+                </div>
+              </dl>
+              <a class="btn btn-sm" href="/case-study.html">View Case Study</a>
+            </article>
+            <article class="info-card case-card glass-card" data-scroll>
+              <figure class="case-media">
+                <img
+                  class="img-fx"
+                  src="/images/capsule_616x353.jpg"
+                  alt="…"
+                  width="800"
+                  height="500"
+                  loading="lazy"
+                />
+              </figure>
+              <h3>Obstacle Overdrive</h3>
+              <dl class="case-facts">
+                <div>
+                  <dt>Problem</dt>
+                  <dd>…</dd>
+                </div>
+                <div>
+                  <dt>Strategy</dt>
+                  <dd>…</dd>
+                </div>
+                <div class="case-fact--result">
+                  <dt>Result</dt>
+                  <dd>…</dd>
+                </div>
+              </dl>
+              <a class="btn btn-sm" href="/case-study.html">View Case Study</a>
+            </article>
+            <article class="info-card case-card glass-card" data-scroll>
+              <figure class="case-media">
+                <img
+                  class="img-fx"
+                  src="/images/capsule_616x353.jpg"
+                  alt="…"
+                  width="800"
+                  height="500"
+                  loading="lazy"
+                />
+              </figure>
+              <h3>Obstacle Overdrive</h3>
+              <dl class="case-facts">
+                <div>
+                  <dt>Problem</dt>
+                  <dd>…</dd>
+                </div>
+                <div>
+                  <dt>Strategy</dt>
+                  <dd>…</dd>
+                </div>
+                <div class="case-fact--result">
+                  <dt>Result</dt>
+                  <dd>…</dd>
+                </div>
+              </dl>
+              <a class="btn btn-sm" href="/case-study.html">View Case Study</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section statement statement--centered" id="…">
+        <div class="container statement-grid">
+          <h2 data-scroll>
+            You built the game. Let's make sure people find it.
+          </h2>
+          <div class="btn-row" data-scroll data-delay="100">
+            <a class="btn btn-lg" href="/contact.html"
+              >Talk About Your<br />
+              Launch</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a class="footer-logo" href="/">
+              <img src="images/bms-full-logo.png" alt="Site name" />
+            </a>
+            <p class="footer-tagline">Short tagline goes here.</p>
+          </div>
+
+          <nav class="footer-links" aria-label="Footer">
+            <div class="footer-col">
+              <h2 class="footer-heading">Explore</h2>
+              <ul>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/case-studies.html">Case Studies</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h2 class="footer-heading">Work with me</h2>
+              <ul>
+                <li><a href="/quiz">Take the Quiz</a></li>
+                <li><a href="/guides.html">Grab a Guide</a></li>
+                <li><a href="/consulting">Consulting</a></li>
+                <li><a href="/speaking">Speaking</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h2 class="footer-heading">Legal</h2>
+              <ul>
+                <li><a href="/privacy">Privacy</a></li>
+                <li><a href="/terms">Terms</a></li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+
+        <div class="footer-bottom">
+          <p>
+            © <span id="current-year">2026</span> Site name. All rights
+            reserved.
+          </p>
+          <a class="back-to-top" href="#">Back to top ↑</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ===== Scripts ===== -->
+    <script src="js/bg.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      defer
+    ></script>
+    <script src="js/main.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+/* ========================================================================
+   MASONRY.CSS
+   Media grid. Case study page.
+   ======================================================================== */
+
+/* ========================================================================
+   MASONRY GRID: 4 columns x 3 rows of media. Rows are a fixed height and a
+   few tiles span two columns or two rows, so mixed shapes interlock without
+   gaps. Tiles are cropped to fill (object-fit: cover), which keeps the
+   layout stable whatever the CMS uploads. Cells must add up to 12:
+   a --wide tile is 2 cells, a --tall tile is 2, a --big tile is 4.
+   ======================================================================== */
+
+.masonry {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: clamp(8rem, 15vw, 14rem);
+  grid-auto-flow: dense;
+  gap: 1.5rem; /* wide enough that the glow on one tile doesn't touch the next */
+  margin: 0;
+  padding: 0 12px 12px 0; /* room for the offset glow on the last row/column */
+  list-style: none;
+}
+
+.masonry-item {
+  min-width: 0;
+  margin: 0;
+}
+
+.masonry-item--wide {
+  grid-column: span 2;
+}
+
+.masonry-item--tall {
+  grid-row: span 2;
+}
+
+.masonry-item--big {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.masonry-item img,
+.masonry-item video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 991.98px) {
+  .masonry {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Phones: one column, every tile the same shape (spans reset) */
+@media (max-width: 575.98px) {
+  .masonry {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .masonry-item--wide,
+  .masonry-item--tall,
+  .masonry-item--big {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .masonry-item img,
+  .masonry-item video {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+}

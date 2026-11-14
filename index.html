@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Site Title</title>
+    <meta name="description" content="Page description." />
+    <meta name="theme-color" content="#12141A" />
+
+    <!-- Must run before the stylesheets so scroll-reveal never flashes -->
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Work+Sans:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap (optional: grid, utilities, navbar collapse) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+
+    <!-- Site CSS: order matters, so these come after Bootstrap -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+    <link rel="stylesheet" href="css/hero.css" />
+    <link rel="stylesheet" href="css/marquee.css" />
+    <link rel="stylesheet" href="css/text-sections.css" />
+    <link rel="stylesheet" href="css/quiz.css" />
+    <link rel="stylesheet" href="css/cards.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+  </head>
+
+  <body>
+    <!-- Fixed background; page content sits above it (z-index: 1) -->
+    <cube-field></cube-field>
+
+    <!-- ===== Nav ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top" aria-label="Main">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <img src="images/bms-cube-logo.png" alt="Site name" />
+          BMS
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <!-- Link names are placeholders; main.js sets .active from the URL -->
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="/work-with-me.html">Work With Me</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/guides.html">Guides</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/case-studies.html">Case Studies</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact.html">Contact</a>
+            </li>
+            <li class="nav-item ms-lg-3">
+              <a class="btn btn-quiz btn-sm" href="/quiz">Take the Quiz</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <!-- ===== Hero ===== -->
+      <section class="hero" id="home">
+        <div class="container hero-grid">
+          <figure class="hero-media">
+            <img
+              class="img-fx"
+              src="images/junae-benne-hero.avif"
+              alt="Describe the hero image"
+              width="1200"
+              height="1400"
+              fetchpriority="high"
+            />
+            <figcaption class="hero-caption">
+              Some ideas don't fit the mold.
+            </figcaption>
+          </figure>
+
+          <div class="hero-copy">
+            <h1>You built the game. Now, let me build the audience.</h1>
+            <p class="hero-sub">
+              Big launch energy for games worth discovering.
+            </p>
+            <div class="btn-row btn-row--center">
+              <a class="btn" href="/quiz">Take the Quiz</a>
+              <a class="btn" href="/guides.html">Grab a Guide</a>
+              <a class="btn" href="/contact.html">Book a Call</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Logo marquee ===== -->
+      <section class="logo-strip" aria-label="Clients and partners">
+        <div class="container">
+          <p class="logo-strip-label">Label goes here</p>
+          <div class="marquee">
+            <div class="marquee-inner">
+              <ul class="marquee-track">
+                <li>
+                  <img
+                    src="images/logos/nordic-game.png"
+                    alt="Nordic Game logo"
+                  />
+                </li>
+                <li>
+                  <img
+                    src="images/logos/black-girl-nerds.png"
+                    alt="Black Girl Nerds logo"
+                  />
+                </li>
+                <li>
+                  <img src="images/logos/microsoft.png" alt="Microsoft logo" />
+                </li>
+                <li>
+                  <img src="images/logos/oculus.png" alt="Oculus logo" />
+                </li>
+                <li>
+                  <img src="images/logos/loupedeck.png" alt="Loupedeck logo" />
+                </li>
+                <li>
+                  <img
+                    src="images/logos/toms-hardware.png"
+                    alt="Tom's Hardware logo"
+                  />
+                </li>
+                <li>
+                  <img src="images/logos/nintendo.png" alt="Nintendo logo" />
+                </li>
+                <li>
+                  <img src="images/logos/pc-gamer.png" alt="PC Gamer logo" />
+                </li>
+                <li><img src="images/logos/esl.png" alt="ESL logo" /></li>
+                <li>
+                  <img
+                    src="images/logos/i-play-games.png"
+                    alt="I Play Games logo"
+                  />
+                </li>
+                <li>
+                  <img src="images/logos/ubisoft.png" alt="Ubisoft logo" />
+                </li>
+                <li>
+                  <img
+                    src="images/logos/black-girl-gamers.webp"
+                    alt="Black Girl Gamers logo"
+                  />
+                </li>
+                <li>
+                  <img src="images/logos/corsair.png" alt="Corsair logo" />
+                </li>
+                <li>
+                  <img src="images/logos/xbox.png" alt="Xbox logo" />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Statement ===== -->
+      <section class="section statement statement--centered">
+        <div class="container statement-grid">
+          <h2 data-scroll>Indie Game Marketing Built Around Discovery</h2>
+          <div class="statement-body" data-scroll data-delay="120ms">
+            <p>
+              Benne Media Solutions is a video game marketing and PR consultancy
+              helping indie game developers and growing studios build audiences
+              before, during, and after launch.
+            </p>
+            <p>
+              Led by marketing journalist and launch strategist Junae Benne, we
+              help teams turn great games into discoverable ones through indie
+              game marketing strategy, Steam visibility, creator and influencer
+              outreach, gaming PR, community building, and launch planning.
+            </p>
+            <p>
+              Whether you're preparing for your first Steam launch, trying to
+              grow wishlists, looking for press and creator coverage, or
+              realizing a little later than you'd like that your game needs an
+              audience, we'll help you figure out what comes next.
+            </p>
+            <a class="btn" href="/quiz"
+              >Explore How We<br />
+              Can Help</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Quiz ===== -->
+      <section class="section quiz">
+        <div class="container quiz-grid">
+          <div class="quiz-copy" data-scroll>
+            <h2>Find Your Launch Style</h2>
+            <p>Are you a:</p>
+            <ul>
+              <li>Hidden Gem?</li>
+              <li>Content Machine?</li>
+              <li>Speakeasy?</li>
+              <li>Deep Seeder?</li>
+            </ul>
+            <p>
+              Most marketing advice fails because it treats every launch the
+              same. Your visibility problem has a pattern. The quiz helps
+              identify where your momentum is breaking down and what to focus on
+              next.
+            </p>
+          </div>
+
+          <div class="embed-card glass-card" data-scroll data-delay="120ms">
+            <iframe
+              src="https://form.typeform.com/to/FrxRyrvi?typeform-embed-id=9660028516241476&typeform-embed=embed-widget&typeform-source=www-bennemediasolutions-com.filesusr.com&typeform-medium=snippet&typeform-medium-version=next&embed-opacity=100&typeform-embed-handles-redirect=1"
+              title="Launch Strategy Quiz"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Split: image + copy ===== -->
+      <section class="section split">
+        <div class="container split-grid">
+          <div class="split-media" data-scroll>
+            <img
+              class="img-fx"
+              src="images/benne 26.avif"
+              alt="Describe the image"
+              width="1000"
+              height="1200"
+              loading="lazy"
+            />
+          </div>
+
+          <div class="split-copy" data-scroll data-delay="120ms">
+            <h2>Hi, I'm Junae.</h2>
+            <p>
+              I'm a marketing journalist, launch strategist, and founder of
+              Benne Media Solutions. For over a decade, I've worked across
+              gaming, media, events, creator communities, and grassroots culture
+              helping products and people get seen.
+            </p>
+            <p>
+              Great work gets buried. Not because people don't care. Because
+              nobody helped the audience connect to it. That's the gap I focus
+              on.
+            </p>
+            <p>
+              I help developers, creators, and brands build marketing systems
+              that feel intentional, sustainable, and human — not loud for the
+              sake of attention.
+            </p>
+            <p>
+              No fake hype. No trend chasing. No bloated agency pricing. Just
+              strategy designed to help people discover what you've already
+              built.
+            </p>
+            <a class="btn" href="/guides.html">Grab a Guide</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Statement 2 ===== -->
+      <section class="section statement">
+        <div class="container statement-grid">
+          <h2 data-scroll>What Are You Trying to Make Happen?</h2>
+          <div class="statement-body" data-scroll data-delay="120ms">
+            <p>
+              Maybe you don't know whether you need PR, creators, community,
+              Steam strategy, or all of the above. That's fine. Start with the
+              outcome.
+            </p>
+            <div class="btn-row">
+              <a class="btn" href="/page">Find My Package</a>
+              <a class="btn" href="/page">Take the Quiz</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Cards ===== -->
+      <section class="section cards">
+        <div class="container">
+          <div class="cards-head" data-scroll>
+            <h2>Let's Get Some Things Accomplished</h2>
+            <p>
+              You don't need to know whether you need PR, influencer outreach,
+              community strategy, or something else yet. Start with the result
+              you're trying to get. We'll figure out which marketing tools
+              belong in the plan.
+            </p>
+          </div>
+
+          <div class="cards-grid">
+            <article class="info-card glass-card" data-scroll>
+              <h3>Get Funding</h3>
+              <p>
+                Build the audience and campaign before you ask them to back it.
+              </p>
+              <p>
+                For video games, tabletop games, and creator-led projects
+                preparing for Kickstarter, BackerKit, or another funding
+                campaign.
+              </p>
+              <a class="btn btn-sm" href="/page">Prepare My Campaign</a>
+            </article>
+
+            <article class="info-card glass-card" data-scroll>
+              <h3>Get Publisher Ready</h3>
+              <p>Make the opportunity easy for a publisher to understand.</p>
+              <p>
+                For developers preparing to approach publishers and needing
+                stronger positioning, materials, market preparation, and pitch
+                readiness.
+              </p>
+              <a class="btn btn-sm" href="/page">Get Publisher Ready</a>
+            </article>
+
+            <article class="info-card glass-card" data-scroll>
+              <h3>Get This Game Launched</h3>
+              <p>
+                Your release date is coming. Let's coordinate everything around
+                it.
+              </p>
+              <p>
+                For teams that need PR, creators, Steam, community, content,
+                email, campaign beats, and launch activity working together.
+              </p>
+              <a class="btn btn-sm" href="/page">Build My Launch</a>
+            </article>
+
+            <article class="info-card glass-card" data-scroll>
+              <h3>Get Me Wishlists</h3>
+              <p>Turn organic discovery into qualified Steam interest.</p>
+              <p>
+                For Steam developers who need more of the right players
+                discovering the game and taking action before launch.
+              </p>
+              <a class="btn btn-sm" href="/page">Get Me Wishlists</a>
+            </article>
+
+            <article class="info-card glass-card" data-scroll>
+              <h3>Get Me Next Fest Ready</h3>
+              <p>Don't let this be the first time you think about marketing.</p>
+              <p>
+                Prepare the Steam page, demo, audience, content, creator
+                outreach, PR, and campaign around the event.
+              </p>
+              <a class="btn btn-sm" href="/page">Prepare for Next Fest</a>
+            </article>
+
+            <article class="info-card glass-card" data-scroll>
+              <h3>Be My Digital Marketer</h3>
+              <p>You build the game. We'll own more of the marketing.</p>
+              <p>
+                For teams that need ongoing senior marketing strategy and
+                execution, but don't need a full internal department.
+              </p>
+              <a class="btn btn-sm" href="/page">Meet Your Marketer</a>
+            </article>
+
+            <article class="info-card info-card--wide glass-card" data-scroll>
+              <h3>Get This Game Off the Ground</h3>
+              <p>You have the game. Now you need the marketing foundation.</p>
+              <p>
+                For developers with a prototype, playable build, or game in
+                development who haven't built the strategy, audience, messaging,
+                systems, or marketing infrastructure around it yet.
+              </p>
+              <a class="btn btn-sm" href="/page">Build My Foundation</a>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a class="footer-logo" href="/">
+              <img src="images/bms-full-logo.png" alt="Site name" />
+            </a>
+            <p class="footer-tagline">Short tagline goes here.</p>
+          </div>
+
+          <nav class="footer-links" aria-label="Footer">
+            <div class="footer-col">
+              <h2 class="footer-heading">Explore</h2>
+              <ul>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/case-studies.html">Case Studies</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h2 class="footer-heading">Work with me</h2>
+              <ul>
+                <li><a href="/quiz">Take the Quiz</a></li>
+                <li><a href="/guides.html">Grab a Guide</a></li>
+                <li><a href="/consulting">Consulting</a></li>
+                <li><a href="/speaking">Speaking</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h2 class="footer-heading">Legal</h2>
+              <ul>
+                <li><a href="/privacy">Privacy</a></li>
+                <li><a href="/terms">Terms</a></li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+
+        <div class="footer-bottom">
+          <p>
+            © <span id="current-year">2026</span> Site name. All rights
+            reserved.
+          </p>
+          <a class="back-to-top" href="#">Back to top ↑</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ===== Scripts ===== -->
+    <script src="js/bg.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      defer
+    ></script>
+    <script src="js/main.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,545 @@
+/* ========================================================================
+   BASE: tokens, reset, typography, images, buttons, badges, cards
+   Fonts (add to <head>):
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+   ======================================================================== */
+
+/* ---------- Tokens ---------- */
+:root {
+  /* Color */
+  --bg: #12141a;
+  --surface: #1a1d26;
+  --text: #f5f7fa;
+  --text-2: #a7afbf;
+  --cyan: #35e0ff;
+  --lavender: #b79cff;
+  --mint: #2cf6c3;
+  --star: #ffd700;
+
+  /* Channels, for translucent versions: rgb(var(--lavender-rgb) / 0.2) */
+  --cyan-rgb: 53 224 255;
+  --lavender-rgb: 183 156 255;
+  --mint-rgb: 44 246 195;
+  --surface-rgb: 26 29 38;
+
+  /* Type */
+  --font-heading: "Work Sans", system-ui, sans-serif;
+  --font-body: "Montserrat", system-ui, sans-serif;
+
+  /* Space */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+
+  /* Radius */
+  --radius-sm: 8px; /* images + buttons */
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  /* Shadows: 315deg, 10px distance = roughly 7px / 7px */
+  --shadow-img: 7px 7px 10px rgb(var(--lavender-rgb) / 0.7);
+  --shadow-btn: 7px 7px 4px rgb(var(--lavender-rgb) / 0.7);
+
+  --gradient-badge: linear-gradient(90deg, var(--mint), var(--lavender));
+
+  /* Motion */
+  --t-fast: 200ms ease;
+  --t-base: 300ms ease;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --space-xl: 4rem;
+    --space-lg: 3rem;
+    --space-md: 1.5rem;
+  }
+}
+
+/* ---------- Reset & base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text-2);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Page content sits above the fixed <cube-field> (z-index 0) */
+main,
+section,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Scrim over the cube field so text stays readable as cubes pass behind it.
+   Tune --cube-scrim (0 = off, 0.5 = heavy). It dims the cubes, not the text. */
+cube-field {
+  --cube-scrim: 0.4;
+}
+
+cube-field::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgb(var(--bg-rgb, 18 20 26) / var(--cube-scrim));
+}
+
+/* Secondary text gets a soft halo of the background color as extra insurance */
+p,
+li {
+  text-shadow: 0 0 14px rgb(var(--bg-rgb, 18 20 26) / 0.9);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--space-md);
+}
+
+::selection {
+  background: var(--lavender);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+/* ---------- Typography ---------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+h1 {
+  font-weight: 700;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+p {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: var(--text-2);
+}
+
+a {
+  color: var(--cyan);
+  text-decoration: none;
+  transition: color var(--t-fast);
+}
+
+a:hover {
+  color: var(--text);
+}
+
+/* ---------- Images ---------- */
+/* Opt-in so logos, icons and the marquee don't pick up the shadow */
+.img-fx {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-img);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  /* Per-variant colors. Bootstrap's own .btn hover/press/focus rules read the
+     --bs-btn-* variables below; if they're undefined the button turns
+     transparent on hover and press, so they're pointed at ours. */
+  --btn-bg: var(--mint);
+  --btn-fg: var(--bg);
+  --btn-border: #000;
+  --bs-btn-color: var(--btn-fg);
+  --bs-btn-bg: var(--btn-bg);
+  --bs-btn-border-color: var(--btn-border);
+  --bs-btn-hover-color: var(--btn-fg);
+  --bs-btn-hover-bg: #fff;
+  --bs-btn-hover-border-color: var(--btn-border);
+  --bs-btn-active-color: var(--btn-fg);
+  --bs-btn-active-bg: #fff;
+  --bs-btn-active-border-color: var(--btn-border);
+  --bs-btn-disabled-color: var(--btn-fg);
+  --bs-btn-disabled-bg: var(--btn-bg);
+  --bs-btn-disabled-border-color: var(--btn-border);
+
+  position: relative; /* stars are positioned against this */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.75rem;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: var(--btn-fg);
+  background-color: var(--btn-bg);
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-btn);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--t-fast), box-shadow var(--t-fast),
+    background-color var(--t-fast);
+}
+
+.btn:hover {
+  color: var(--btn-fg);
+  transform: translateY(-2px);
+  box-shadow: 8px 9px 6px rgb(var(--lavender-rgb) / 0.7);
+}
+
+.btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 3px rgb(var(--lavender-rgb) / 0.7);
+}
+
+/* Bootstrap's .btn:focus-visible removes the outline and swaps the shadow */
+.btn:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  box-shadow: var(--shadow-btn);
+}
+
+/* Quiz CTA: the one cyan button */
+.btn-quiz {
+  --btn-bg: var(--cyan);
+}
+
+/* Secondary */
+.btn-outline {
+  --btn-bg: transparent;
+  --btn-fg: var(--text);
+  --btn-border: var(--mint);
+  box-shadow: none;
+}
+
+.btn-outline:focus-visible {
+  box-shadow: none;
+}
+
+.btn-outline:hover {
+  color: var(--text);
+  background-color: rgb(var(--mint-rgb) / 0.15);
+  box-shadow: none;
+}
+
+/* ========================================================================
+   BUTTON ROW: two or more CTAs side by side. Used in the hero, statements,
+   and any later section. Add .btn-row--center to center it (it also centers
+   itself inside .statement--centered). Stacks full-width on small phones.
+   ======================================================================== */
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  /* Wide enough that each button's offset shadow doesn't touch its neighbor */
+  gap: 1.25rem 1.5rem;
+  margin-top: 0.75rem;
+}
+
+.btn-row .btn {
+  margin-top: 0;
+}
+
+.btn-row--center,
+.statement--centered .btn-row {
+  justify-content: center;
+}
+
+@media (max-width: 575.98px) {
+  .btn-row {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.btn-sm {
+  padding: 0.5rem 1.1rem;
+  font-size: 0.8rem;
+}
+
+.btn-lg {
+  padding: 1rem 2.25rem;
+  font-size: 1rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn:disabled,
+.btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn i {
+  transition: transform var(--t-fast);
+}
+
+.btn:hover i {
+  transform: translateX(4px);
+}
+
+/* Retro power-up stars (ported from the Wix custom CSS) */
+.btn::before,
+.btn::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  width: 16px;
+  height: 16px;
+  background: var(--star);
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+  opacity: 0;
+  transform: translateY(0) scale(0.8) rotate(0deg);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.btn::before {
+  left: 8px;
+}
+
+.btn::after {
+  left: calc(100% - 24px);
+}
+
+/* Hover-capable devices only, so touch screens don't get stuck stars */
+@media (hover: hover) {
+  .btn:hover::before {
+    animation: starRiseLeft 0.6s ease-out forwards;
+  }
+
+  .btn:hover::after {
+    animation: starRiseRight 0.6s ease-out forwards;
+  }
+}
+
+@keyframes starRiseLeft {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.8) rotate(0deg);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-12px) scale(1.2) rotate(-12deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-26px) scale(1) rotate(-22deg);
+  }
+}
+
+@keyframes starRiseRight {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.8) rotate(0deg);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-12px) scale(1.2) rotate(12deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-26px) scale(1) rotate(22deg);
+  }
+}
+
+/* ---------- Badges ---------- */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: var(--space-sm);
+  padding: 0.35rem 1rem;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--gradient-badge);
+  border-radius: var(--radius-full);
+}
+
+/* ---------- Section spacing ---------- */
+.section {
+  padding-block: var(--space-xl);
+}
+
+/* ---------- Bullet lists with mint markers ----------
+   Shared by the quiz copy, statement body/list and duo columns. Add a new
+   list selector here instead of copying these rules. */
+.quiz-copy ul,
+.statement-body ul,
+.statement-list,
+.duo ul {
+  padding-left: 1.25rem;
+  font-size: 1.0625rem;
+  color: var(--text-2);
+}
+
+.quiz-copy li,
+.statement-body li,
+.statement-list li,
+.duo li {
+  margin-bottom: 0.6rem;
+  padding-left: 0.25rem;
+  line-height: 1.55;
+}
+
+.quiz-copy li::marker,
+.statement-body li::marker,
+.statement-list li::marker,
+.duo li::marker {
+  color: var(--mint);
+}
+
+/* ---------- Entrance animation (hero, case hero) ---------- */
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Tags ----------
+   Small gradient pills for services, genres, etc. Same shape and type as
+   buttons, without the border or shadow. Not interactive.
+   <ul class="tag-list" aria-label="Services"><li>Trailer</li>…</ul> */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-list > li {
+  padding: 0.4rem 0.95rem;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: var(--bg);
+  background: var(--gradient-badge);
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- Cards ---------- */
+.glass-card {
+  background: rgb(var(--surface-rgb) / 0.7);
+  border: 1px solid rgb(var(--lavender-rgb) / 0.2);
+  border-radius: var(--radius-lg);
+  transition: transform var(--t-base), border-color var(--t-base),
+    box-shadow var(--t-base);
+}
+
+/* Blur costs real GPU time, so desktop with a pointer only */
+@media (min-width: 992px) and (hover: hover) {
+  .glass-card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: rgb(var(--lavender-rgb) / 0.5);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 0.35);
+}
+
+/* ---------- Anchor offset (replaces the JS "-80px" scroll math) ---------- */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* ---------- Scroll reveal (driven by main.js) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* Only hidden when JS is running, so no-JS visitors still see content */
+  .js [data-scroll] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .js [data-scroll].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Site Title</title>
+    <meta name="description" content="Page description." />
+    <meta name="theme-color" content="#12141A" />
+
+    <!-- Must run before the stylesheets so scroll-reveal never flashes -->
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Work+Sans:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap (optional: grid, utilities, navbar collapse) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+
+    <!-- Site CSS: order matters, so these come after Bootstrap -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+    <link rel="stylesheet" href="css/forms.css" />
+    <link rel="stylesheet" href="css/contact.css" />
+    <link rel="stylesheet" href="css/text-sections.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+  </head>
+
+  <body>
+    <!-- Fixed background; page content sits above it (z-index: 1) -->
+    <cube-field></cube-field>
+
+    <!-- ===== Nav ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top" aria-label="Main">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <img src="images/bms-cube-logo.png" alt="Site name" />
+          BMS
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <!-- Link names are placeholders; main.js sets .active from the URL -->
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="/work-with-me.html">Work With Me</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/guides.html">Guides</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/case-studies.html">Case Studies</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact.html">Contact</a>
+            </li>
+            <li class="nav-item ms-lg-3">
+              <a class="btn btn-quiz btn-sm" href="/quiz">Take the Quiz</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <section class="page-intro">
+        <div class="container">
+          <h1>Let's Build Something People Remember.</h1>
+          <p>
+            Whether you need launch strategy, creator outreach, speaking
+            engagements, or long-term visibility support, let's talk about where
+            your project is now and where you want it to go.
+          </p>
+          <a class="btn" href="/…">Book a Free Consultation</a>
+        </div>
+      </section>
+
+      <section class="contact">
+        <div class="container contact-grid">
+          <div class="contact-aside">
+            <p>Contact Options Expanded:</p>
+            <ul class="statement-list">
+              <li>
+                Work With Me: Launch strategy, creator outreach, audience
+                growth, and visibility systems.
+              </li>
+              <li>
+                Book Me to Speak: Panels, workshops, conferences, podcasts, and
+                industry events.
+              </li>
+              <li>
+                Send Your Product: Games, creative projects, and launches for
+                consideration or collaboration.
+              </li>
+            </ul>
+          </div>
+
+          <div class="contact-form-wrap glass-card">
+            <form action="#" method="post">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="first-name">First name</label>
+                  <input
+                    id="first-name"
+                    name="first_name"
+                    type="text"
+                    autocomplete="given-name"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="last-name">Last name</label>
+                  <input
+                    id="last-name"
+                    name="last_name"
+                    type="text"
+                    autocomplete="family-name"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="phone"
+                    >Phone <span class="field-optional">(optional)</span></label
+                  >
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                  />
+                </div>
+              </div>
+
+              <fieldset class="choice-group">
+                <legend>What can I help with?</legend>
+                <div class="choices">
+                  <div class="choice">
+                    <input
+                      type="radio"
+                      id="topic-work"
+                      name="topic"
+                      value="work-with-me"
+                      required
+                    />
+                    <label for="topic-work">Work With Me</label>
+                  </div>
+                  <div class="choice">
+                    <input
+                      type="radio"
+                      id="topic-speak"
+                      name="topic"
+                      value="speaking"
+                    />
+                    <label for="topic-speak">Book Me to Speak</label>
+                  </div>
+                  <div class="choice">
+                    <input
+                      type="radio"
+                      id="topic-product"
+                      name="topic"
+                      value="product"
+                    />
+                    <label for="topic-product">Send Your Product</label>
+                  </div>
+                  <div class="choice">
+                    <input
+                      type="radio"
+                      id="topic-other"
+                      name="topic"
+                      value="other"
+                    />
+                    <label for="topic-other">Other</label>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div class="field field--full" style="margin-bottom: 1.5rem">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+              </div>
+
+              <div class="hp-field" aria-hidden="true">
+                <label for="website">Leave this empty</label>
+                <input
+                  id="website"
+                  name="website"
+                  type="text"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </div>
+
+              <button class="btn" type="submit">Send Message</button>
+              <p class="form-status" role="status"></p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a class="footer-logo" href="/">
+              <img src="images/bms-full-logo.png" alt="Site name" />
+            </a>
+            <p class="footer-tagline">Short tagline goes here.</p>
+          </div>
+
+          <nav class="footer-links" aria-label="Footer">
+            <div class="footer-col">
+              <h2 class="footer-heading">Explore</h2>
+              <ul>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/case-studies.html">Case Studies</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h2 class="footer-heading">Work with me</h2>
+              <ul>
+                <li><a href="/quiz">Take the Quiz</a></li>
+                <li><a href="/guides.html">Grab a Guide</a></li>
+                <li><a href="/consulting">Consulting</a></li>
+                <li><a href="/speaking">Speaking</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h2 class="footer-heading">Legal</h2>
+              <ul>
+                <li><a href="/privacy">Privacy</a></li>
+                <li><a href="/terms">Terms</a></li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+
+        <div class="footer-bottom">
+          <p>
+            © <span id="current-year">2026</span> Site name. All rights
+            reserved.
+          </p>
+          <a class="back-to-top" href="#">Back to top ↑</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ===== Scripts ===== -->
+    <script src="js/bg.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      defer
+    ></script>
+    <script src="js/main.js" defer></script>
+  </body>
+</html>

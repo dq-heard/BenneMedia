@@ -1,0 +1,446 @@
+/* ========================================================================
+   CARDS.CSS
+   Card sections: info, case, guide, tile, media, testimonial. Needs base.css.
+   ======================================================================== */
+
+/* ========================================================================
+   CARDS: h2 + intro paragraph, then a grid of info cards.
+   Seven cards fit a 3-column grid as 3 + 3 + 1, so the last card is
+   .info-card--wide and spans the full row (also 2 + 2 + 2 + 1 on tablets).
+   Put --wide on whichever card should be the full-width one.
+   ======================================================================== */
+
+.cards-head {
+  max-width: 44rem;
+  margin: 0 auto var(--space-lg);
+  text-align: center;
+}
+
+.cards-head p:last-child {
+  margin-bottom: 0;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.info-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem;
+}
+
+.info-card h3 {
+  margin-bottom: 0.9rem;
+  font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+}
+
+/* First paragraph is the lead, second is supporting copy */
+.info-card > p {
+  margin-bottom: 1rem;
+}
+
+.info-card > p:first-of-type {
+  font-size: 1.0625rem;
+  color: var(--text);
+}
+
+.info-card > p:last-of-type {
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* Cards without a button: the last paragraph closes the card, and a lone
+     paragraph reads as normal body copy rather than a lead. */
+.info-card > p:last-child {
+  margin-bottom: 0;
+}
+
+.info-card > p:only-of-type:last-child {
+  font-size: 1rem;
+  color: var(--text-2);
+}
+
+/* Heading-only intro (no paragraph under the h2) */
+.cards-head h2:last-child {
+  margin-bottom: 0;
+}
+
+/* Pushes every button to the bottom so they line up across a row */
+.info-card .btn {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.info-card--wide {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 992px) {
+  /* Wide card: heading on the left, copy and button on the right */
+  .info-card--wide {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    column-gap: 2.5rem;
+    align-items: start;
+  }
+
+  .info-card--wide h3 {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    margin: 0;
+  }
+
+  .info-card--wide > :not(h3) {
+    grid-column: 2;
+  }
+
+  .info-card--wide .btn {
+    justify-self: start;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================================================
+     CASE STUDY CARDS: image, game name, problem / strategy / (optional) result,
+     button. Built on .info-card (same grid, glass surface and bottom-pinned
+     button). The result block is simply left out when a case has no result.
+  
+     <article class="info-card case-card glass-card" data-scroll>
+       <figure class="case-media">
+         <img class="img-fx" src="…" alt="…" width="…" height="…" loading="lazy">
+       </figure>
+       <h3>Game name</h3>
+       <dl class="case-facts">
+         <div><dt>Problem</dt><dd>…</dd></div>
+         <div><dt>Strategy</dt><dd>…</dd></div>
+         <div class="case-fact--result"><dt>Result</dt><dd>…</dd></div>
+       </dl>
+       <a class="btn btn-sm" href="…">View Case Study</a>
+     </article>
+     ======================================================================== */
+
+.case-media {
+  margin: 0 0 1.25rem;
+}
+
+.case-media img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.case-facts {
+  display: grid;
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+}
+
+.case-facts dt {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lavender);
+}
+
+.case-facts dd {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.case-fact--result dt {
+  color: var(--mint);
+}
+
+.case-fact--result dd {
+  color: var(--text);
+}
+
+/* ========================================================================
+     GUIDE CARDS: book cover, title, paragraph, "Learn More" button.
+     Built on .info-card. The button is the one real link (one tab stop, a clear
+     name for screen readers). The cover is also a link for mouse and touch
+     users, but is hidden from keyboard and assistive tech so it isn't announced
+     twice. Heading above uses .cards-head.
+  
+     <div class="guides-grid">
+       <article class="info-card guide-card glass-card" data-scroll>
+         <a class="guide-cover" href="/guides/slug" tabindex="-1" aria-hidden="true">
+           <img class="img-fx" src="…" alt="" width="600" height="800" loading="lazy">
+         </a>
+         <h3>Guide title</h3>
+         <p>…</p>
+         <a class="btn btn-sm" href="/guides/slug">Learn More<span class="visually-hidden"> about Guide title</span></a>
+       </article>
+     </div>
+     ======================================================================== */
+
+.guides-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+  max-width: 62rem;
+  margin-inline: auto;
+}
+
+.guide-cover {
+  display: block;
+  width: 100%;
+  max-width: 17rem;
+  margin: 0 auto 1.5rem;
+  padding: 0 8px 10px 0; /* room for the offset shadow */
+}
+
+.guide-cover img {
+  width: 100%;
+  height: auto;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .guide-cover img {
+    transition: transform var(--t-base);
+  }
+
+  .guide-card:hover .guide-cover img {
+    transform: translateY(-4px);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .guides-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================================================
+     TILES: short label-only cards in a list (no body copy, no link).
+     <ul class="tile-grid"><li class="tile glass-card">Label</li>…</ul>
+     ======================================================================== */
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  display: flex;
+  align-items: center;
+  min-height: 7rem;
+  padding: 1.5rem 1.75rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+/* Not clickable, so don't lift on hover like a link card */
+.glass-card.tile:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 991.98px) {
+  .tile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .tile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================================================
+     MEDIA TILES: logo, type, title (the external link), source, optional date.
+     The title link is stretched over the whole card: one tab stop, whole card
+     clickable. Omit .media-date when there's no date. Grid fits any item count.
+     ======================================================================== */
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  gap: 1.75rem;
+}
+
+.media-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1.75rem;
+}
+
+.media-logo {
+  display: block;
+  align-self: flex-start;
+  width: auto;
+  max-width: 10rem;
+  height: 3rem;
+  margin-bottom: 1.25rem;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.media-type {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lavender);
+}
+
+.media-card h3 {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+  line-height: 1.3;
+}
+
+.media-link {
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* Stretch the link's hit area over the whole card */
+.media-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+}
+
+.media-link:hover,
+.media-link:focus-visible {
+  color: var(--cyan);
+}
+
+.media-link:focus-visible {
+  outline: none;
+}
+
+.media-link:focus-visible::after {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.media-arrow {
+  display: inline-block;
+  margin-left: 0.3em;
+  font-size: 0.85em;
+  color: var(--cyan);
+}
+
+.media-source {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-2);
+}
+
+/* Pushes the date to the bottom so tiles line up when titles differ in length */
+.media-date {
+  margin: auto 0 0;
+  padding-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-2);
+}
+
+/* ========================================================================
+     TESTIMONIALS: quote, then name and role. The avatar is optional; leave
+     out the <img> and the name lines up on its own.
+     ======================================================================== */
+
+.quote-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+  gap: 1.75rem;
+}
+
+.quote-card {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 1.75rem;
+}
+
+/* Decorative opening mark, not read aloud */
+.quote-card::before {
+  content: "\201C"/ "";
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 0.8;
+  color: var(--lavender);
+}
+
+.quote-card blockquote {
+  margin: 0 0 1.5rem;
+}
+
+.quote-card blockquote p {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.quote-card figcaption {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: auto; /* names line up across a row */
+}
+
+.quote-avatar {
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+}
+
+.quote-who {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  color: var(--text-2);
+}
+
+.quote-who strong {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: var(--text);
+}
+
+/* Quotes aren't links, so no hover lift */
+.glass-card.quote-card:hover {
+  transform: none;
+  box-shadow: none;
+}

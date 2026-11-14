@@ -1,0 +1,156 @@
+/* ========================================================================
+   MARQUEE.CSS
+   Logo strip. Home page.
+   ======================================================================== */
+
+/* ========================================================================
+   LOGO MARQUEE
+   Two identical tracks sit side by side and slide left by one loop period.
+   main.js builds the second (aria-hidden) track and measures the period, so
+   the HTML only needs one list. Without JS it shows as a static row.
+   ======================================================================== */
+
+.logo-strip {
+  padding: 0 0 var(--space-lg);
+}
+
+.logo-strip-label {
+  margin: 0 0 1.25rem;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+/* Pill container from the template */
+.marquee {
+  --marquee-gap: 4rem;
+  --logo-count: 14; /* update when logos are added or removed */
+  /* Loop time scales with logo count, so scroll speed stays about the same
+       (~50px/s). Raise 3.5s to slow it down, lower it to speed it up. */
+  --marquee-speed: calc(var(--logo-count) * 3.5s);
+
+  overflow: hidden;
+  padding-block: 1.1rem;
+  background: rgb(var(--surface-rgb) / 0.6);
+  border: 1px solid rgb(var(--lavender-rgb) / 0.2);
+  border-radius: var(--radius-full);
+}
+
+/* Edge fade lives on the inner wrapper so the pill border stays crisp */
+.marquee-inner {
+  display: flex;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Animation only starts once main.js has measured the loop (.is-ready) */
+.marquee.is-ready .marquee-track {
+  animation: marquee-scroll var(--marquee-speed) linear infinite;
+  will-change: transform;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Spacing is a margin on every logo (including the last one in each track),
+     not a gap, so each track is exactly one loop period wide and the seam
+     between the two tracks is spaced like every other logo. */
+.marquee-track li {
+  display: flex;
+  flex: none;
+  align-items: center;
+  margin-inline-end: var(--marquee-gap);
+}
+
+.marquee-track img {
+  display: block;
+  width: auto;
+  height: 40px;
+  max-width: 160px;
+  object-fit: contain;
+  filter: grayscale(1) brightness(1.6);
+  opacity: 0.7;
+  transition: filter var(--t-base), opacity var(--t-base);
+}
+
+.marquee-track img:hover {
+  filter: none;
+  opacity: 1;
+}
+
+/* --marquee-shift is measured in main.js: the exact distance from a logo to
+     its twin in the second track, i.e. one loop period. */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(var(--marquee-shift, 100%) * -1));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .marquee {
+    --marquee-gap: 2.5rem;
+    padding-block: 0.85rem;
+  }
+
+  .marquee-track img {
+    height: 30px;
+    max-width: 120px;
+  }
+}
+
+/* No motion: a static, wrapped row of logos (and no duplicate track) */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1rem;
+  }
+
+  .marquee-inner {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .marquee-track {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem 2rem;
+    animation: none;
+  }
+
+  .marquee-track li {
+    margin-inline-end: 0;
+  }
+
+  .marquee-track[aria-hidden="true"] {
+    display: none;
+  }
+}
