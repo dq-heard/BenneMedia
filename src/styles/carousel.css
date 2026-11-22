@@ -1,0 +1,186 @@
+/* ========================================================================
+   CAROUSEL.CSS  (Case Studies page)
+   Scroll-snap carousel of large project cards, prev/next in the top corner,
+   plus the Industry Footprint section (copy left, stat strip right).
+   Needs base.css, cards.css and case-study.css (.stat-card).
+   ======================================================================== */
+
+.carousel-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.carousel-btn {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--text);
+  background: rgb(var(--surface-rgb) / 0.8);
+  border: 1px solid rgb(var(--lavender-rgb) / 0.5);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition:
+    background var(--t-fast),
+    color var(--t-fast),
+    opacity var(--t-fast);
+}
+
+.carousel-btn:hover:not(:disabled) {
+  color: var(--bg);
+  background: var(--mint);
+}
+
+.carousel-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0 0 1rem;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-track:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 4px;
+  border-radius: var(--radius-md);
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.case-slide {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+  height: 100%;
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.case-slide-media {
+  margin: 0;
+}
+
+.case-slide-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.case-slide-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.case-slide-copy h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.case-slide-copy p {
+  margin: 0;
+}
+
+/* Status label: outlined, colour by state */
+.status-badge {
+  padding: 0.3rem 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mint);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-sm);
+}
+
+.status-badge[data-status="in-development"] {
+  color: var(--cyan);
+}
+
+.status-badge[data-status="shipped"] {
+  color: var(--lavender);
+}
+
+.status-badge[data-status="archived"] {
+  color: var(--text-2);
+}
+
+@media (max-width: 767.98px) {
+  .case-slide {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- Industry footprint ---------- */
+.footprint-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.footprint-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.footprint-copy h2,
+.footprint-copy p {
+  margin: 0;
+}
+
+.stat-grid--strip {
+  margin: 0;
+}
+
+@media (min-width: 576px) {
+  .stat-grid--strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 991.98px) {
+  .footprint-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* @media (max-width: 991.98px) {
+  .footprint-grid {
+    grid-template-columns: 1fr;
+  }
+} */
+
+.footprint-marquee {
+  margin-top: var(--space-lg);
+}

@@ -1,0 +1,265 @@
+---
+import "../../styles/text-sections.css";
+import "../../styles/cards.css";
+import "../../styles/faq.css";
+import "../../styles/package.css";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Img from "../../components/Img.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import { getPackage, getPackageSlugs } from "../../lib/package";
+
+export async function getStaticPaths() {
+  return (await getPackageSlugs()).map((slug) => ({ params: { slug } }));
+}
+
+const p = (await getPackage(Astro.params.slug!))!;
+---
+
+<BaseLayout
+  title={p.seo?.title ?? p.title}
+  description={p.seo?.description ?? p.heroDescription}
+  image={p.seo?.image}
+>
+  <main>
+    {
+      p.hubSlug && (
+        <Breadcrumbs
+          trail={[
+            { name: "Work With Me", path: `/${p.hubSlug}` },
+            { name: p.title, path: `/packages/${Astro.params.slug}` },
+          ]}
+        />
+      )
+    }
+
+    <section class="page-intro">
+      <div class="container">
+        <div class="package-eyebrow">Package</div>
+        <h1>{p.title}</h1>
+        {p.heroDescription && <p>{p.heroDescription}</p>}
+        {p.intro.map((x) => <p>{x}</p>)}
+      </div>
+    </section>
+
+    {
+      p.whoItsFor.length > 0 && (
+        <section class="section statement">
+          <div class="container statement-grid">
+            <h2 data-scroll>Who It's For</h2>
+            <div class="statement-body" data-scroll data-delay="100ms">
+              <ul>
+                {p.whoItsFor.map((i) => (
+                  <li>{i}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.problem && (
+        <section class="section statement">
+          <div class="container statement-grid">
+            <h2 data-scroll>The Problem</h2>
+            <div class="statement-body" data-scroll data-delay="100ms">
+              <p>{p.problem}</p>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.outcome && (
+        <section class="section statement">
+          <div class="container statement-grid">
+            <h2 data-scroll>The Outcome</h2>
+            <div class="statement-body" data-scroll data-delay="100ms">
+              <p>{p.outcome}</p>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.tiers.length > 0 && (
+        <section class="section">
+          <div class="container">
+            <div class="cards-head">
+              {p.tiersHeading && <h2>{p.tiersHeading}</h2>}
+              {p.tiersIntro && <p>{p.tiersIntro}</p>}
+            </div>
+            <div class="tier-grid">
+              {p.tiers.map((t) => (
+                <article
+                  class="tier-card glass-card"
+                  data-tier={t.key}
+                  data-scroll
+                >
+                  <h3>{t.name}</h3>
+                  {t.tagline && <p class="tier-tagline">{t.tagline}</p>}
+                  {t.body && <p>{t.body}</p>}
+                  {(t.description || t.deliverables.length > 0) && (
+                    <div class="tier-extra">
+                      {t.description && <p>{t.description}</p>}
+                      {t.deliverables.length > 0 && (
+                        <ul>
+                          {t.deliverables.map((d) => (
+                            <li>{d}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  )}
+                  {t.button && (
+                    <a class="btn btn-sm" href={t.button.href}>
+                      {t.button.label}
+                    </a>
+                  )}
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.included.length > 0 && (
+        <section class="section">
+          <div class="container">
+            <div class="cards-head">
+              <h2>What May Be Included</h2>
+            </div>
+            <div class="included-card glass-card" data-scroll>
+              <ul class="included-list">
+                {p.included.map((i) => (
+                  <li>{i}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.caseStudies.length > 0 && (
+        <section class="section">
+          <div class="container">
+            <div class="cards-head">
+              <h2>See It in Action</h2>
+            </div>
+            <div class="cards-grid">
+              {p.caseStudies.map((c) => (
+                <article class="info-card case-card glass-card" data-scroll>
+                  {c.landscapeCover && (
+                    <figure class="case-media">
+                      <Img
+                        class="img-fx"
+                        image={c.landscapeCover}
+                        width={800}
+                        height={500}
+                      />
+                    </figure>
+                  )}
+                  <h3>{c.title}</h3>
+                  <dl class="case-facts">
+                    {c.cardProblem && (
+                      <div>
+                        <dt>Problem</dt>
+                        <dd>{c.cardProblem}</dd>
+                      </div>
+                    )}
+                    {c.cardStrategy && (
+                      <div>
+                        <dt>Strategy</dt>
+                        <dd>{c.cardStrategy}</dd>
+                      </div>
+                    )}
+                    {c.cardResult && (
+                      <div class="case-fact--result">
+                        <dt>Result</dt>
+                        <dd>{c.cardResult}</dd>
+                      </div>
+                    )}
+                  </dl>
+                  <a class="btn btn-sm" href={`/case-studies/${c.slug}`}>
+                    View Case Study
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.guides.length > 0 && (
+        <section class="section">
+          <div class="container">
+            <div class="cards-head">
+              <h2>Helpful Resources</h2>
+            </div>
+            <div class="cards-grid">
+              {p.guides.map((g) => (
+                <article class="info-card glass-card" data-scroll>
+                  <h3>{g.title}</h3>
+                  {g.shortDescription && <p>{g.shortDescription}</p>}
+                  <a class="btn btn-sm" href={`/guides/${g.slug}`}>
+                    Learn More
+                    <span class="visually-hidden"> about {g.title}</span>
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.faq.length > 0 && (
+        <section class="section" id="faq">
+          <div class="container">
+            <div class="cards-head">
+              <h2>Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-list">
+              {p.faq.map((f) => (
+                <details class="faq-item glass-card" name="faq" data-scroll>
+                  <summary>{f.question}</summary>
+                  <div class="faq-answer">
+                    <p>{f.answer}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.ctaHeading && (
+        <section class="section statement statement--centered">
+          <div class="container statement-grid">
+            <h2 data-scroll>{p.ctaHeading}</h2>
+            <div class="statement-body" data-scroll data-delay="100ms">
+              {p.ctaBody && <p>{p.ctaBody}</p>}
+              {p.cta && (
+                <a class="btn btn-lg" href={p.cta.href}>
+                  {p.cta.label}
+                </a>
+              )}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </main>
+</BaseLayout>

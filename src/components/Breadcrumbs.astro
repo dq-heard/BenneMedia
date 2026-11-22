@@ -1,0 +1,86 @@
+---
+// Visible breadcrumb trail + matching BreadcrumbList structured data, so the two never drift apart.
+// Place it as the first child of <main>. It sits over the top of the hero, just under the fixed nav.
+import { getBreadcrumbSchema } from "../lib/schema";
+import JsonLd from "./JsonLd.astro";
+
+interface Props {
+  trail: { name: string; path: string }[]; // everything after Home; the last item is the current page
+}
+const { trail } = Astro.props;
+const items = [{ name: "Home", path: "/" }, ...trail];
+const schema = getBreadcrumbSchema(Astro.site ?? Astro.url.origin, trail);
+---
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <div class="container">
+    <ol>
+      {
+        items.map((it, i) => (
+          <li>
+            {i < items.length - 1 ? (
+              <a href={it.path}>{it.name}</a>
+            ) : (
+              <span aria-current="page">{it.name}</span>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</nav>
+<JsonLd data={schema} />
+
+<style>
+  .breadcrumbs {
+    position: absolute;
+    inset-inline: 0;
+    top: var(--crumb-top, 5.5rem); /* adjust to sit just under your navbar */
+    z-index: 2;
+    font-size: 0.875rem;
+  }
+
+  ol {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--text-2);
+  }
+
+  li {
+    display: flex;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  li + li::before {
+    content: "/";
+    opacity: 0.6;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus-visible {
+    color: var(--text);
+    text-decoration: underline;
+  }
+
+  /* Long titles shrink with an ellipsis instead of wrapping or overflowing on phones */
+  li:last-child {
+    flex: 1 1 auto;
+  }
+
+  [aria-current="page"] {
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>

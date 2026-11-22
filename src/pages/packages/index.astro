@@ -1,0 +1,8 @@
+---
+// /packages has no page of its own; the Work With Me page is the hub.
+// The slug comes from Sanity, so this follows it if the slug is ever changed.
+import { getWorkWithMe } from "../../lib/work-with-me";
+
+const page = await getWorkWithMe();
+return Astro.redirect(page?.slug ? `/${page.slug}` : "/", 301);
+---

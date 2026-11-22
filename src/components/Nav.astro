@@ -1,0 +1,73 @@
+---
+import { urlFor } from "../lib/sanity";
+import { isCurrent, type SiteSettings } from "../lib/site";
+
+interface Props {
+  site: SiteSettings;
+}
+
+const { site } = Astro.props;
+const pathname = Astro.url.pathname;
+---
+
+<nav class="navbar navbar-expand-lg fixed-top" aria-label="Main">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      {
+        site.logo && (
+          <img
+            src={urlFor(site.logo).height(72).auto("format").url()}
+            alt=""
+            height="36"
+          />
+        )
+      }
+      <span class="brand-full">{site.brandName}</span>
+      <span class="brand-short" aria-hidden="true"
+        >{site.shortName ?? site.brandName}</span
+      >
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        {
+          site.nav.map((item) => {
+            const current = isCurrent(item.href, pathname);
+            return (
+              <li class="nav-item">
+                <a
+                  class:list={["nav-link", { active: current }]}
+                  href={item.href}
+                  aria-current={current ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+        {
+          site.navCta && (
+            <li class="nav-item ms-lg-3">
+              <a class="btn btn-quiz btn-sm" href={site.navCta.href}>
+                {site.navCta.label}
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </div>
+  </div>
+</nav>

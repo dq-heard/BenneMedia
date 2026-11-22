@@ -1,0 +1,202 @@
+---
+import "../styles/text-sections.css";
+import "../styles/forms.css";
+import "../styles/contact.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getContact } from "../lib/contact";
+
+const p = (await getContact())!;
+const described = p.topics.filter((t) => t.description);
+---
+
+<BaseLayout
+  title={p.seo?.title ?? p.intro?.heading}
+  description={p.seo?.description}
+  image={p.seo?.image}
+>
+  <main>
+    {
+      p.intro && (
+        <section class="page-intro">
+          <div class="container">
+            <h1>{p.intro.heading}</h1>
+            {p.intro.paragraphs.map((t) => (
+              <p>{t}</p>
+            ))}
+            {p.intro.cta && (
+              <a
+                class="btn"
+                href={p.intro.cta.href}
+                {...(p.intro.cta.newTab
+                  ? { target: "_blank", rel: "noopener" }
+                  : {})}
+              >
+                {p.intro.cta.label}
+              </a>
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    <section class="contact">
+      <div class="container contact-grid">
+        <div class="contact-aside">
+          {
+            described.length > 0 && (
+              <>
+                {p.topicsLead && <p>{p.topicsLead}</p>}
+                <ul class="statement-list">
+                  {described.map((t) => (
+                    <li>
+                      {t.label}: {t.description}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )
+          }
+        </div>
+
+        <div class="contact-form-wrap glass-card">
+          <form
+            id="contact-form"
+            method="post"
+            action="/api/contact"
+            data-success={p.successMessage}
+            data-error={p.errorMessage}
+          >
+            <div class="form-grid">
+              <div class="field">
+                <label for="first-name">First name</label>
+                <input
+                  id="first-name"
+                  name="firstName"
+                  type="text"
+                  autocomplete="given-name"
+                  required
+                  maxlength="80"
+                />
+              </div>
+              <div class="field">
+                <label for="last-name">Last name</label>
+                <input
+                  id="last-name"
+                  name="lastName"
+                  type="text"
+                  autocomplete="family-name"
+                  required
+                  maxlength="80"
+                />
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                  maxlength="200"
+                />
+              </div>
+              <div class="field">
+                <label for="phone"
+                  >Phone <span class="field-optional">(optional)</span></label
+                >
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  autocomplete="tel"
+                  maxlength="40"
+                />
+              </div>
+            </div>
+
+            {
+              p.topics.length > 0 && (
+                <fieldset class="choice-group">
+                  <legend>{p.topicLegend}</legend>
+                  <div class="choices">
+                    {p.topics.map((t, i) => (
+                      <div class="choice">
+                        <input
+                          type="radio"
+                          id={`topic-${t.value}`}
+                          name="topic"
+                          value={t.value}
+                          data-label={t.label}
+                          required={i === 0}
+                        />
+                        <label for={`topic-${t.value}`}>{t.label}</label>
+                      </div>
+                    ))}
+                  </div>
+                </fieldset>
+              )
+            }
+
+            <div class="field field--full" style="margin-bottom: 1.5rem">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required maxlength="4000"
+              ></textarea>
+            </div>
+
+            <div class="hp-field" aria-hidden="true">
+              <label for="company">Leave this empty</label>
+              <input
+                id="company"
+                name="company"
+                type="text"
+                tabindex="-1"
+                autocomplete="off"
+              />
+            </div>
+
+            <button class="btn" type="submit">{p.submitLabel}</button>
+            <p class="form-status" role="status"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("#contact-form");
+  if (form) {
+    const status = form.querySelector<HTMLElement>(".form-status")!;
+    const button = form.querySelector<HTMLButtonElement>(
+      'button[type="submit"]'
+    )!;
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = Object.fromEntries(new FormData(form)) as Record<
+        string,
+        string
+      >;
+      const picked = form.querySelector<HTMLInputElement>(
+        'input[name="topic"]:checked'
+      );
+      data.topicLabel = picked?.dataset.label ?? "";
+      button.disabled = true;
+      status.textContent = "Sending…";
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = form.dataset.success ?? "Sent.";
+      } catch {
+        status.textContent = form.dataset.error ?? "Something went wrong.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>

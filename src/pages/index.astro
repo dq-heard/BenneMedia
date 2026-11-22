@@ -1,0 +1,143 @@
+---
+import "../styles/hero.css";
+import "../styles/text-sections.css";
+import "../styles/quiz.css";
+import "../styles/cards.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Ctas from "../components/Ctas.astro";
+import Img from "../components/Img.astro";
+import Marquee from "../components/sections/Marquee.astro";
+import Statement from "../components/sections/Statement.astro";
+import { getOrganizationSchema } from "../lib/schema";
+import { getHome } from "../lib/home";
+
+const h = await getHome();
+const typeform = h.quiz?.typeformId
+  ? `https://form.typeform.com/to/${h.quiz.typeformId}?typeform-medium=embed-snippet`
+  : undefined;
+const exp = h.expertise;
+const wideLast = exp.length % 2 === 1;
+const org = await getOrganizationSchema(Astro.site ?? Astro.url.origin);
+---
+
+<BaseLayout
+  title={h.seo?.title}
+  description={h.seo?.description}
+  image={h.seo?.image}
+  jsonLd={org}
+>
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <figure class="hero-media">
+          <Img
+            class="img-fx"
+            image={h.heroImage}
+            width={1200}
+            height={1200}
+            eager
+          />
+          {
+            h.heroCaption && (
+              <figcaption class="hero-caption">{h.heroCaption}</figcaption>
+            )
+          }
+        </figure>
+        <div class="hero-copy">
+          <h1>{h.heroHeading}</h1>
+          {h.heroSub && <p class="hero-sub">{h.heroSub}</p>}
+          <Ctas links={h.heroCtas} class="btn-row btn-row--center" />
+        </div>
+      </div>
+    </section>
+
+    {
+      h.marquee && (
+        <Marquee label={h.marquee.label} logos={h.marquee.logos ?? []} />
+      )
+    }
+
+    {h.intro && <Statement data={h.intro} centered />}
+
+    {
+      h.quiz && (
+        <section class="section quiz">
+          <div class="container quiz-grid">
+            <div class="quiz-copy" data-scroll>
+              <h2>{h.quiz.heading}</h2>
+              {h.quiz.lead && <p>{h.quiz.lead}</p>}
+              {h.quiz.options?.length && (
+                <ul>
+                  {h.quiz.options.map((o) => (
+                    <li>{o}</li>
+                  ))}
+                </ul>
+              )}
+              {h.quiz.body && <p>{h.quiz.body}</p>}
+            </div>
+            {typeform && (
+              <div class="embed-card glass-card" data-scroll data-delay="120ms">
+                <iframe
+                  src={typeform}
+                  title={h.quiz.embedTitle ?? "Quiz"}
+                  loading="lazy"
+                />
+              </div>
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      h.about && (
+        <section class="section split">
+          <div class="container split-grid">
+            <div class="split-media" data-scroll>
+              <Img
+                class="img-fx"
+                image={h.about.image}
+                width={1000}
+                height={1200}
+              />
+            </div>
+            <div class="split-copy" data-scroll data-delay="120ms">
+              <h2>{h.about.heading}</h2>
+              {h.about.paragraphs.map((p) => (
+                <p>{p}</p>
+              ))}
+              {h.about.cta && (
+                <a class="btn" href={h.about.cta.href}>
+                  {h.about.cta.label}
+                </a>
+              )}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      h.expertise.length > 0 && (
+        <section class="section cards">
+          <div class="container">
+            <div class="cards-head" data-scroll>
+              {h.expertiseHeading && <h2>{h.expertiseHeading}</h2>}
+              {h.expertiseIntro && <p>{h.expertiseIntro}</p>}
+            </div>
+            <div class="cards-grid">
+              {h.expertise.map((e) => (
+                <article class="info-card glass-card" data-scroll>
+                  <h3>{e.title}</h3>
+                  {e.summary && <p>{e.summary}</p>}
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {h.goals && <Statement data={h.goals} />}
+  </main>
+</BaseLayout>

@@ -1,0 +1,153 @@
+/* ========================================================================
+   PACKAGE.CSS  (/indie-game-marketing/[slug])
+   Eyebrow badge, three fact cards, Roadmap / Build / Execute tier cards,
+   and the "What May Be Included" checklist. Needs base.css and cards.css.
+   ======================================================================== */
+
+.package-eyebrow {
+  display: inline-block;
+  margin: 0 0 1rem;
+  padding: 0.3rem 0.85rem;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mint);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- Who it's for / problem / outcome ---------- */
+.package-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.package-fact {
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.package-fact h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.375rem;
+}
+
+.package-fact p {
+  margin: 0;
+}
+
+/* ---------- Tiers ---------- */
+.tier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tier-card {
+  --tier: var(--mint);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-top: 3px solid var(--tier);
+  background-image: linear-gradient(
+    color-mix(in srgb, var(--tier) 9%, transparent),
+    color-mix(in srgb, var(--tier) 9%, transparent)
+  );
+}
+
+.tier-card[data-tier="build"] {
+  --tier: var(--cyan);
+}
+
+.tier-card[data-tier="execute"] {
+  --tier: var(--lavender);
+}
+
+.tier-card h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tier);
+}
+
+.tier-tagline {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.tier-card p {
+  margin: 0;
+}
+
+.tier-extra {
+  padding-top: 0.75rem;
+  border-top: 1px solid rgb(var(--lavender-rgb) / 0.25);
+  font-size: 0.9375rem;
+}
+
+.tier-extra ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.tier-card .btn {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+/* ---------- What may be included ---------- */
+.included-card {
+  max-width: 52rem;
+  margin-inline: auto;
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.included-list {
+  columns: 2;
+  column-gap: 2.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.included-list li {
+  position: relative;
+  break-inside: avoid;
+  margin-bottom: 0.75rem;
+  padding-left: 1.75rem;
+  text-transform: capitalize;
+}
+
+.included-list li::before {
+  content: "✓" / "";
+  position: absolute;
+  left: 0;
+  color: var(--mint);
+  font-weight: 700;
+}
+
+@media (max-width: 991.98px) {
+  .package-facts,
+  .tier-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .included-list {
+    columns: 1;
+  }
+}

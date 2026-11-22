@@ -1,0 +1,21 @@
+---
+import type { Statement } from "../../lib/home";
+import Ctas from "../Ctas.astro";
+interface Props {
+  data: Statement;
+  centered?: boolean;
+}
+const { data, centered = false } = Astro.props;
+---
+
+<section
+  class:list={["section", "statement", { "statement--centered": centered }]}
+>
+  <div class="container statement-grid">
+    <h2 data-scroll>{data.heading}</h2>
+    <div class="statement-body" data-scroll data-delay="120ms">
+      {data.paragraphs.map((p) => <p>{p}</p>)}
+      <Ctas links={data.ctas} />
+    </div>
+  </div>
+</section>

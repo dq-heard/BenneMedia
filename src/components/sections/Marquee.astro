@@ -1,0 +1,33 @@
+---
+import "../../styles/marquee.css";
+import { urlFor } from "../../lib/sanity";
+interface Props {
+  label?: string;
+  logos: { name: string; image: any }[];
+}
+const { label, logos } = Astro.props;
+---
+
+{
+  logos.length > 0 && (
+    <section class="logo-strip" aria-label="Clients and partners">
+      <div class="container">
+        {label && <p class="logo-strip-label">{label}</p>}
+        <div class="marquee">
+          <div class="marquee-inner">
+            <ul class="marquee-track">
+              {logos.map((l) => (
+                <li>
+                  <img
+                    src={urlFor(l.image).height(120).auto("format").url()}
+                    alt={`${l.name} logo`}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

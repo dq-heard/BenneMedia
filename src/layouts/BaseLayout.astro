@@ -1,0 +1,90 @@
+---
+// Bootstrap first, then the site CSS, so ours wins. Page-specific CSS
+// (hero, marquee, quiz, cards, ...) is imported by the page that uses it.
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/base.css";
+import "../styles/nav.css";
+import "../styles/footer.css";
+
+import type { SanityImageSource } from "@sanity/image-url";
+import Footer from "../components/Footer.astro";
+import Nav from "../components/Nav.astro";
+import { urlFor } from "../lib/sanity";
+import { getSiteSettings } from "../lib/site";
+import JsonLd from "../components/JsonLd.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: SanityImageSource;
+  jsonLd?: object | object[] | null;
+  noindex?: boolean;
+}
+
+const site = await getSiteSettings();
+const { title, description, image, jsonLd, noindex = false } = Astro.props;
+
+const pageTitle = title ? `${title} | ${site.brandName}` : site.brandName;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const ogImage = image
+  ? urlFor(image).width(1200).height(630).fit("crop").auto("format").url()
+  : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <meta name="theme-color" content="#12141A" />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <meta property="og:title" content={pageTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta
+      name="twitter:card"
+      content={ogImage ? "summary_large_image" : "summary"}
+    />
+
+    <!-- Runs before paint so scroll-reveal never flashes -->
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Work+Sans:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    {jsonLd && <JsonLd data={jsonLd} />}
+
+    <slot name="head" />
+  </head>
+
+  <body>
+    <!-- Fixed background; page content sits above it (z-index: 1) -->
+    <cube-field></cube-field>
+
+    <Nav site={site} />
+
+    <slot />
+
+    <Footer site={site} />
+
+    <script>
+      import "../scripts/cube-field.js";
+      import "../scripts/main.js";
+    </script>
+  </body>
+</html>

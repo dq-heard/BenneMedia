@@ -1,0 +1,206 @@
+---
+import "../../styles/text-sections.css";
+import "../../styles/cards.css";
+import "../../styles/case-study.css";
+import "../../styles/carousel.css";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Img from "../../components/Img.astro";
+import Marquee from "../../components/sections/Marquee.astro";
+import { getCaseStudiesPage, STATUS_LABELS } from "../../lib/case-studies";
+
+const p = (await getCaseStudiesPage())!;
+const many = p.slides.length > 1;
+---
+
+<BaseLayout
+  title={p.seo?.title ?? p.intro?.heading}
+  description={p.seo?.description}
+  image={p.seo?.image}
+>
+  <main>
+    {
+      p.intro && (
+        <section class="page-intro">
+          <div class="container">
+            <h1>{p.intro.heading}</h1>
+            {p.intro.paragraphs.map((t) => (
+              <p>{t}</p>
+            ))}
+            {p.intro.cta && (
+              <div class="btn-row btn-row--center">
+                <a class="btn" href={p.intro.cta.href}>
+                  {p.intro.cta.label}
+                </a>
+              </div>
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.slides.length > 0 && (
+        <section
+          class="section"
+          aria-roledescription="carousel"
+          aria-label={p.carouselLabel ?? "Case studies"}
+        >
+          <div class="container" data-carousel>
+            {many && (
+              <div class="carousel-controls">
+                <button
+                  class="carousel-btn"
+                  type="button"
+                  data-dir="-1"
+                  aria-label="Previous project"
+                >
+                  ←
+                </button>
+                <button
+                  class="carousel-btn"
+                  type="button"
+                  data-dir="1"
+                  aria-label="Next project"
+                >
+                  →
+                </button>
+              </div>
+            )}
+            <ul class="carousel-track" tabindex="0" aria-live="polite">
+              {p.slides.map((s, i) => {
+                const art = s.landscapeCover ?? s.cover;
+                return (
+                  <li
+                    class="carousel-slide"
+                    aria-roledescription="slide"
+                    aria-label={`${i + 1} of ${p.slides.length}`}
+                  >
+                    <article class="glass-card case-slide">
+                      {art && (
+                        <figure class="case-slide-media">
+                          <Img
+                            class="img-fx"
+                            image={art}
+                            width={800}
+                            height={500}
+                            eager={i === 0}
+                          />
+                        </figure>
+                      )}
+                      <div class="case-slide-copy">
+                        {s.status && (
+                          <span class="status-badge" data-status={s.status}>
+                            {STATUS_LABELS[s.status] ?? s.status}
+                          </span>
+                        )}
+                        <h2>{s.title}</h2>
+                        {s.shortDescription && <p>{s.shortDescription}</p>}
+                        {s.services?.length ? (
+                          <ul class="tag-list">
+                            {s.services.filter(Boolean).map((t) => (
+                              <li>{t.title}</li>
+                            ))}
+                          </ul>
+                        ) : null}
+                        <a class="btn btn-sm" href={`/case-studies/${s.slug}`}>
+                          View Case Study →
+                          <span class="visually-hidden"> for {s.title}</span>
+                        </a>
+                      </div>
+                    </article>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      (p.footprintHeading || p.footprintStats.length > 0) && (
+        <section class="section">
+          <div class="container footprint-grid">
+            <div class="footprint-copy" data-scroll>
+              {p.footprintHeading && <h2>{p.footprintHeading}</h2>}
+              {p.footprintBody && <p>{p.footprintBody}</p>}
+              {p.footprintCta && (
+                <a class="btn" href={p.footprintCta.href}>
+                  {p.footprintCta.label}
+                </a>
+              )}
+            </div>
+            {p.footprintStats.length > 0 && (
+              <dl
+                class="stat-grid stat-grid--strip"
+                data-scroll
+                data-delay="120ms"
+              >
+                {p.footprintStats.map((s) => (
+                  <div class="stat-card glass-card">
+                    <dt>{s.label}</dt>
+                    <dd>{s.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.marquee?.logos?.length ? (
+        <div class="footprint-marquee">
+          <Marquee label={p.marquee.label} logos={p.marquee.logos} />
+        </div>
+      ) : null
+    }
+
+    {
+      p.closingHeading && (
+        <section class="section statement statement--centered">
+          <div class="container statement-grid">
+            <h2 data-scroll>{p.closingHeading}</h2>
+            <div class="statement-body" data-scroll data-delay="100ms">
+              {p.closingBody && <p>{p.closingBody}</p>}
+              {p.closingCta && (
+                <a class="btn btn-lg" href={p.closingCta.href}>
+                  {p.closingCta.label}
+                </a>
+              )}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </main>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((root) => {
+    const track = root.querySelector<HTMLElement>(".carousel-track");
+    const prev = root.querySelector<HTMLButtonElement>('[data-dir="-1"]');
+    const next = root.querySelector<HTMLButtonElement>('[data-dir="1"]');
+    if (!track || !prev || !next) return;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const update = () => {
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled =
+        track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+    };
+    for (const btn of [prev, next]) {
+      btn.addEventListener("click", () => {
+        const slide = track.querySelector<HTMLElement>(".carousel-slide");
+        const step = (slide?.offsetWidth ?? track.clientWidth) + 24;
+        track.scrollBy({
+          left: step * Number(btn.dataset.dir),
+          behavior: reduce ? "auto" : "smooth",
+        });
+      });
+    }
+    track.addEventListener("scroll", update, { passive: true });
+    addEventListener("resize", update);
+    update();
+  });
+</script>

@@ -1,0 +1,25 @@
+---
+import type { ResolvedLink } from "../lib/links";
+interface Props {
+  links: ResolvedLink[];
+  class?: string;
+  small?: boolean;
+}
+const { links, class: cls = "btn-row", small = false } = Astro.props;
+---
+
+{
+  links.length > 0 && (
+    <div class={cls}>
+      {links.map((l) => (
+        <a
+          class={small ? "btn btn-sm" : "btn"}
+          href={l.href}
+          {...(l.newTab ? { target: "_blank", rel: "noopener" } : {})}
+        >
+          {l.label}
+        </a>
+      ))}
+    </div>
+  )
+}

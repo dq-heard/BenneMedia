@@ -1,0 +1,248 @@
+---
+import "../styles/text-sections.css";
+import "../styles/cards.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Ctas from "../components/Ctas.astro";
+import Img from "../components/Img.astro";
+import { formatDate, getAbout } from "../lib/about";
+import { getPersonSchema } from "../lib/schema";
+import { urlFor } from "../lib/sanity";
+
+const p = (await getAbout())!;
+const person = await getPersonSchema(Astro.site ?? Astro.url.origin, {
+  jobTitle: p.jobTitle,
+  image: p.bio?.image,
+  sameAs: p.profileLinks,
+});
+---
+
+<BaseLayout
+  title={p.seo?.title ?? p.intro?.heading}
+  description={p.seo?.description}
+  image={p.seo?.image}
+  jsonLd={person}
+>
+  <main>
+    {
+      p.intro && (
+        <section class="page-intro">
+          <div class="container">
+            <h1>{p.intro.heading}</h1>
+            {p.intro.paragraphs.map((t) => (
+              <p>{t}</p>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.bio && (
+        <section class="section split">
+          <div class="container split-grid">
+            <div class="split-media" data-scroll>
+              <Img
+                class="img-fx"
+                image={p.bio.image}
+                width={1000}
+                height={1200}
+              />
+            </div>
+            <div class="split-copy" data-scroll data-delay="120ms">
+              <h2>{p.bio.heading}</h2>
+              {p.bio.paragraphs.map((t) => (
+                <p>{t}</p>
+              ))}
+              {p.bio.cta && (
+                <a class="btn" href={p.bio.cta.href}>
+                  {p.bio.cta.label}
+                </a>
+              )}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.experience.length > 0 && (
+        <section class="section">
+          <div class="container">
+            {p.experienceHeading && (
+              <div class="cards-head">
+                <h2>{p.experienceHeading}</h2>
+              </div>
+            )}
+            <ul class="tile-grid">
+              {p.experience.map((t) => (
+                <li class="tile glass-card" data-scroll>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.mediaHeading && p.media.length > 0 && (
+        <section class="section" id="featured">
+          <div class="container">
+            <div class="cards-head">
+              <h2>{p.mediaHeading}</h2>
+            </div>
+            <div class="media-grid">
+              {p.media.map((m) => (
+                <article class="media-card glass-card" data-scroll>
+                  {m.logo && (
+                    <img
+                      class="media-logo img-fx"
+                      src={urlFor(m.logo as any)
+                        .height(144)
+                        .auto("format")
+                        .url()}
+                      alt=""
+                      width="240"
+                      height="72"
+                      loading="lazy"
+                    />
+                  )}
+                  {m.type && <p class="media-type">{m.type}</p>}
+                  <h3>
+                    {m.externalUrl ? (
+                      <a
+                        class="media-link"
+                        href={m.externalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {m.title}
+                        <span class="visually-hidden">
+                          {" "}
+                          (opens in a new tab)
+                        </span>
+                        <span class="media-arrow" aria-hidden="true">
+                          ↗
+                        </span>
+                      </a>
+                    ) : (
+                      m.title
+                    )}
+                  </h3>
+                  <p class="media-source">{m.publication}</p>
+                  {m.date && (
+                    <p class="media-date">
+                      <time datetime={m.date}>{formatDate(m.date)}</time>
+                    </p>
+                  )}
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.projectsHeading && p.projects.length > 0 && (
+        <section class="section">
+          <div class="container">
+            <div class="cards-head">
+              <h2>{p.projectsHeading}</h2>
+            </div>
+            <div class="cards-grid">
+              {p.projects.map((c) => (
+                <article class="info-card case-card glass-card" data-scroll>
+                  {c.landscapeCover && (
+                    <figure class="case-media">
+                      <Img
+                        class="img-fx"
+                        image={c.landscapeCover}
+                        width={800}
+                        height={500}
+                      />
+                    </figure>
+                  )}
+                  <h3>{c.title}</h3>
+                  <dl class="case-facts">
+                    {c.cardProblem && (
+                      <div>
+                        <dt>Problem</dt>
+                        <dd>{c.cardProblem}</dd>
+                      </div>
+                    )}
+                    {c.cardStrategy && (
+                      <div>
+                        <dt>Strategy</dt>
+                        <dd>{c.cardStrategy}</dd>
+                      </div>
+                    )}
+                    {c.cardResult && (
+                      <div class="case-fact--result">
+                        <dt>Result</dt>
+                        <dd>{c.cardResult}</dd>
+                      </div>
+                    )}
+                  </dl>
+                  <a class="btn btn-sm" href={`/case-studies/${c.slug}`}>
+                    View Case Study
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.testimonials.length > 0 && (
+        <section class="section" id="testimonials">
+          <div class="container">
+            {p.testimonialsHeading && (
+              <div class="cards-head">
+                <h2>{p.testimonialsHeading}</h2>
+              </div>
+            )}
+            <div class="quote-grid">
+              {p.testimonials.map((t) => (
+                <figure class="quote-card glass-card" data-scroll>
+                  <blockquote>
+                    <p>{t.quote}</p>
+                  </blockquote>
+                  <figcaption>
+                    {t.avatar && (
+                      <Img
+                        class="quote-avatar"
+                        image={{ ...t.avatar, decorative: true }}
+                        width={96}
+                        height={96}
+                      />
+                    )}
+                    <span class="quote-who">
+                      <strong>{t.name}</strong>
+                      {t.role && <span>{t.role}</span>}
+                    </span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.closingCtas.length > 0 && (
+        <section class="section" aria-label="Next steps">
+          <div class="container">
+            <div data-scroll>
+              <Ctas links={p.closingCtas} class="btn-row btn-row--center" />
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </main>
+</BaseLayout>

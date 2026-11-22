@@ -1,0 +1,208 @@
+---
+// Work With Me lives here so its URL can be changed in Studio (the page's Slug field).
+// Real route files (about.astro, contact.astro, ...) win over this one.
+import "../styles/text-sections.css";
+import "../styles/cards.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Img from "../components/Img.astro";
+import { getWorkWithMe } from "../lib/work-with-me";
+import { getServiceSchemas } from "../lib/schema";
+
+export async function getStaticPaths() {
+  const page = await getWorkWithMe();
+  return page?.slug ? [{ params: { slug: page.slug } }] : [];
+}
+
+const p = (await getWorkWithMe())!;
+const services = await getServiceSchemas(
+  Astro.site ?? Astro.url.origin,
+  p.slug!,
+  p.packages.map((k) => ({
+    title: k.title,
+    summary: k.lead,
+    slug: k.slug,
+    path: `/packages/${k.slug}`,
+  }))
+);
+---
+
+<BaseLayout
+  title={p.seo?.title}
+  description={p.seo?.description}
+  image={p.seo?.image}
+  jsonLd={services}
+>
+  <main>
+    {
+      p.intro && (
+        <section class="page-intro">
+          <div class="container">
+            <h1>{p.intro.heading}</h1>
+            {p.intro.paragraphs.map((t) => (
+              <p>{t}</p>
+            ))}
+            {p.intro.cta && (
+              <a class="btn" href={p.intro.cta.href}>
+                {p.intro.cta.label}
+              </a>
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.packages.length > 0 && (
+        <section class="section">
+          <div class="container">
+            {p.packageHeading && (
+              <div class="cards-head">
+                <h2>{p.packageHeading}</h2>
+                <p>{p.packageIntro}</p>
+              </div>
+            )}
+            <div class="cards-grid">
+              {p.packages.map((pkg, i) => (
+                <article
+                  class:list={[
+                    "info-card",
+                    "glass-card",
+                    {
+                      "info-card--wide":
+                        p.packages.length % 2 === 1 &&
+                        i === p.packages.length - 1,
+                    },
+                  ]}
+                  data-scroll
+                >
+                  <h3>{pkg.title}</h3>
+                  <p>{pkg.lead}</p>
+                  <p>{pkg.summary}</p>
+                  <a class="btn btn-sm" href={`/packages/${pkg.slug}`}>
+                    {pkg.ctaLabel}
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.paths.length > 0 && (
+        <section class="section">
+          <div class="container">
+            {p.pathsHeading && (
+              <div class="cards-head">
+                <h2>{p.pathsHeading}</h2>
+              </div>
+            )}
+            <div class="cards-grid">
+              {p.paths.map((c) => (
+                <article class="info-card glass-card" data-scroll>
+                  <h3>{c.title}</h3>
+                  {c.body && <p>{c.body}</p>}
+                  {c.cta && (
+                    <a class="btn btn-sm" href={c.cta.href}>
+                      {c.cta.label}
+                    </a>
+                  )}
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.who && (
+        <section class="section statement">
+          <div class="container statement-grid">
+            <div class="statement-head" data-scroll>
+              <h2 data-scroll>{p.who.heading}</h2>
+              {p.who.intro && <p>{p.who.intro}</p>}
+            </div>
+            <div class="statement-body" data-scroll data-delay="100ms">
+              <ul>
+                {(p.who.items ?? []).map((i) => (
+                  <li>{i}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.caseStudiesHeading && p.caseStudies.length > 0 && (
+        <section class="section">
+          <div class="container">
+            <div class="cards-head">
+              <h2>{p.caseStudiesHeading}</h2>
+            </div>
+            <div class="cards-grid">
+              {p.caseStudies.map((c) => (
+                <article class="info-card case-card glass-card" data-scroll>
+                  {c.landscapeCover && (
+                    <figure class="case-media">
+                      <Img
+                        class="img-fx"
+                        image={c.landscapeCover}
+                        width={800}
+                        height={500}
+                      />
+                    </figure>
+                  )}
+                  <h3>{c.title}</h3>
+                  <dl class="case-facts">
+                    {c.cardProblem && (
+                      <div>
+                        <dt>Problem</dt>
+                        <dd>{c.cardProblem}</dd>
+                      </div>
+                    )}
+                    {c.cardStrategy && (
+                      <div>
+                        <dt>Strategy</dt>
+                        <dd>{c.cardStrategy}</dd>
+                      </div>
+                    )}
+                    {c.cardResult && (
+                      <div class="case-fact--result">
+                        <dt>Result</dt>
+                        <dd>{c.cardResult}</dd>
+                      </div>
+                    )}
+                  </dl>
+                  <a class="btn btn-sm" href={`/case-studies/${c.slug}`}>
+                    View Case Study
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      p.closingHeading && (
+        <section class="section statement statement--centered">
+          <div class="container statement-grid">
+            <h2 data-scroll>{p.closingHeading}</h2>
+            {p.closingCta && (
+              <div class="btn-row" data-scroll data-delay="100ms">
+                <a class="btn btn-lg" href={p.closingCta.href}>
+                  {p.closingCta.label}
+                </a>
+              </div>
+            )}
+          </div>
+        </section>
+      )
+    }
+  </main>
+</BaseLayout>

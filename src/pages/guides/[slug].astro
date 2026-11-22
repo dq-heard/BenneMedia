@@ -1,0 +1,155 @@
+---
+import "../../styles/hero.css";
+import "../../styles/text-sections.css";
+import "../../styles/cards.css";
+import "../../styles/faq.css";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Img from "../../components/Img.astro";
+import { formatPrice, getGuide, getGuideSlugs } from "../../lib/guides";
+import { getProductSchema } from "../../lib/schema";
+
+export async function getStaticPaths() {
+  return (await getGuideSlugs()).map((slug) => ({ params: { slug } }));
+}
+
+const g = (await getGuide(Astro.params.slug!))!;
+const price = formatPrice(g.price, g.currency);
+const buy = g.purchaseUrl;
+const faqCta =
+  g.faqCta ?? (buy ? { label: "Buy Now", href: buy, newTab: true } : undefined);
+const external = (l: { newTab?: boolean }) =>
+  l.newTab ? { target: "_blank", rel: "noopener" } : {};
+const product = await getProductSchema(Astro.site ?? Astro.url.origin, {
+  title: g.title,
+  slug: Astro.params.slug!,
+  description: g.shortDescription,
+  image: g.cover,
+  price: g.price,
+  currency: g.currency,
+  purchaseUrl: g.purchaseUrl,
+});
+---
+
+<BaseLayout
+  title={g.seo?.title ?? g.title}
+  description={g.seo?.description ?? g.shortDescription}
+  image={g.seo?.image ?? g.cover}
+  jsonLd={product}
+>
+  <main>
+    <Breadcrumbs
+      trail={[
+        { name: "Guides", path: "/guides" },
+        { name: g.title, path: `/guides/${Astro.params.slug}` },
+      ]}
+    />
+    <section class="hero" id="product">
+      <div class="container hero-grid">
+        <figure class="hero-media hero-media--portrait">
+          <Img class="img-fx" image={g.cover} width={600} height={800} eager />
+        </figure>
+        <div class="hero-copy hero-copy--left">
+          <h1>{g.title}</h1>
+          {
+            price && (
+              <p class="product-price">
+                <data value={g.price}>{price}</data>
+              </p>
+            )
+          }
+          {
+            buy && (
+              <div class="btn-row">
+                <a class="btn" href={buy} target="_blank" rel="noopener">
+                  Buy Now
+                </a>
+              </div>
+            )
+          }
+          {
+            g.fullDescription.length > 0 && (
+              <div class="hero-sub">
+                {g.fullDescription.map((t) => (
+                  <p>{t}</p>
+                ))}
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </section>
+
+    {
+      g.whoItsFor && (
+        <section class="section statement">
+          <div class="container statement-grid">
+            <h2 data-scroll>Who It's For</h2>
+            <div class="statement-body" data-scroll data-delay="100ms">
+              <p>{g.whoItsFor}</p>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      g.problemItSolves && (
+        <section class="section statement">
+          <div class="container statement-grid">
+            <h2 data-scroll>The Problem It Solves</h2>
+            <div class="statement-body" data-scroll data-delay="100ms">
+              <p>{g.problemItSolves}</p>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      g.whatsIncluded.length > 0 && (
+        <section class="section statement">
+          <div class="container statement-grid">
+            <h2 data-scroll>What's Included</h2>
+            <div class="statement-body" data-scroll data-delay="100ms">
+              <ul>
+                {g.whatsIncluded.map((i) => (
+                  <li>{i}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      g.faq.length > 0 && (
+        <section class="section" id="faq">
+          <div class="container">
+            <div class="cards-head">
+              <h2>{g.faqHeading ?? "Frequently Asked Questions"}</h2>
+            </div>
+            <div class="faq-list">
+              {g.faq.map((f) => (
+                <details class="faq-item glass-card" name="faq" data-scroll>
+                  <summary>{f.question}</summary>
+                  <div class="faq-answer">
+                    <p>{f.answer}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+            {faqCta && (
+              <div class="btn-row btn-row--center faq-cta">
+                <a class="btn" href={faqCta.href} {...external(faqCta)}>
+                  {faqCta.label}
+                </a>
+              </div>
+            )}
+          </div>
+        </section>
+      )
+    }
+  </main>
+</BaseLayout>

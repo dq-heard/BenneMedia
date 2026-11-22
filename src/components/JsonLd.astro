@@ -1,0 +1,10 @@
+---
+// Renders structured data. "<" is escaped so content can never close the script tag.
+interface Props {
+  data: object | object[];
+}
+const { data } = Astro.props;
+const json = JSON.stringify(data).replace(/</g, "\\u003c");
+---
+
+<script is:inline type="application/ld+json" set:html={json} />

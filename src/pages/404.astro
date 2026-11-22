@@ -1,0 +1,23 @@
+---
+import "../styles/text-sections.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page Not Found" noindex>
+  <main>
+    <section class="page-intro">
+      <div class="container">
+        <h1>This Page Didn't Make the Launch.</h1>
+        <p>
+          The link may be old, or the page may have moved. Here are a few places
+          that will get you back on track.
+        </p>
+        <div class="btn-row btn-row--center">
+          <a class="btn" href="/">Back to Home</a>
+          <a class="btn" href="/guides">Browse the Guides</a>
+          <a class="btn" href="/contact">Contact Me</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,297 @@
+---
+import "../../styles/hero.css";
+import "../../styles/text-sections.css";
+import "../../styles/cards.css";
+import "../../styles/case-study.css";
+import "../../styles/masonry.css";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Img from "../../components/Img.astro";
+import { getCaseStudy, getCaseStudySlugs } from "../../lib/case-study";
+import { getBreadcrumbSchema } from "../../lib/schema";
+
+export async function getStaticPaths() {
+  return (await getCaseStudySlugs()).map((slug) => ({ params: { slug } }));
+}
+
+const c = (await getCaseStudy(Astro.params.slug!))!;
+const tile = {
+  normal: [500, 500],
+  wide: [1000, 500],
+  tall: [500, 1000],
+  big: [1000, 1000],
+} as const;
+const steam = c.steamUrl
+  ? { href: c.steamUrl, target: "_blank", rel: "noopener" }
+  : undefined;
+---
+
+<BaseLayout
+  title={c.seo?.title ?? c.title}
+  description={c.seo?.description ?? c.shortDescription}
+  image={c.seo?.image ?? c.cover}
+>
+  <main>
+    <Breadcrumbs
+      trail={[
+        { name: "Case Studies", path: "/case-studies" },
+        { name: c.title, path: `/case-studies/${Astro.params.slug}` },
+      ]}
+    />
+    <section class="case-hero">
+      <div class="container">
+        <div class="case-hero-grid">
+          <div class="case-hero-copy">
+            <h1>{c.title}</h1>
+            {c.shortDescription && <p>{c.shortDescription}</p>}
+            {
+              c.services.length > 0 && (
+                <div class="case-tags">
+                  <p class="case-label" id="services-label">
+                    Services
+                  </p>
+                  <ul class="tag-list" aria-labelledby="services-label">
+                    {c.services.map((s) => (
+                      <li>{s.title}</li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            }
+            {
+              steam && (
+                <a class="btn" {...steam}>
+                  {c.heroCta}
+                </a>
+              )
+            }
+          </div>
+          <div class="case-hero-side">
+            <p class="case-eyebrow">Indie Game Marketing Case Study</p>
+            <div class="case-showcase">
+              {
+                c.cover && (
+                  <Img
+                    class="case-cover"
+                    image={c.cover}
+                    width={500}
+                    height={500}
+                    eager
+                  />
+                )
+              }
+              <div class="case-meta">
+                <dl class="case-details">
+                  {
+                    c.developer && (
+                      <div>
+                        <>
+                          <dt>Developer</dt>
+                          <dd>{c.developer}</dd>
+                        </>
+                      </div>
+                    )
+                  }
+                  <div>
+                    <dt>Release date</dt>
+                    <dd>
+                      {
+                        c.releaseDate ? (
+                          <time datetime={c.releaseDate}>{c.dateLabel}</time>
+                        ) : (
+                          c.dateLabel
+                        )
+                      }
+                    </dd>
+                  </div>
+                </dl>
+                {
+                  c.genres.length > 0 && (
+                    <div class="case-tags">
+                      <p class="case-label" id="genres-label">
+                        Genres
+                      </p>
+                      <ul class="tag-list" aria-labelledby="genres-label">
+                        {c.genres.map((g) => (
+                          <li>{g}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="case-enter">
+          <a href="#project"
+            >Enter the Project <span aria-hidden="true">&darr;</span></a
+          >
+        </p>
+      </div>
+    </section>
+
+    {
+      (c.challenge || c.tagline) && (
+        <section class="section statement" id="project">
+          <div class="container">
+            <div class="statement-grid">
+              {c.tagline && (
+                <p class="case-tagline" data-scroll>
+                  {c.tagline}
+                </p>
+              )}
+              {c.challenge && (
+                <div class="statement-body" data-scroll data-delay="100ms">
+                  <h2>The Challenge</h2>
+                  <p>{c.challenge}</p>
+                </div>
+              )}
+            </div>
+            {c.stats.length > 0 && (
+              <dl class="stat-grid">
+                {c.stats.map((s) => (
+                  <div class="stat-card glass-card" data-scroll>
+                    <dt>{s.label}</dt>
+                    <dd>{s.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      (c.goal || c.strategy) && (
+        <section class="section">
+          <div class="container">
+            <div class="cards-head">
+              <h2>The Work</h2>
+            </div>
+            <div class="duo">
+              {c.goal && (
+                <div data-scroll>
+                  <h3>Goal</h3>
+                  <p>{c.goal}</p>
+                </div>
+              )}
+              {c.strategy && (
+                <div data-scroll data-delay="100ms">
+                  <h3>Strategy</h3>
+                  <p>{c.strategy}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      c.gallery.length > 0 && (
+        <section class="section">
+          <div class="container">
+            <div class="cards-head">
+              <h2>What That Looked Like</h2>
+            </div>
+            <div class="masonry">
+              {c.gallery.map((g) => {
+                const size = g.size ?? "normal";
+                const [w, h] = tile[size];
+                return (
+                  <figure
+                    class:list={[
+                      "masonry-item",
+                      { [`masonry-item--${size}`]: size !== "normal" },
+                    ]}
+                    data-scroll
+                  >
+                    <Img class="img-fx" image={g.image} width={w} height={h} />
+                  </figure>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      (c.whatMoved.length > 0 || c.fieldNotes.length > 0) && (
+        <section class="section">
+          <div class="container">
+            <div class="duo">
+              {c.whatMoved.length > 0 && (
+                <div data-scroll>
+                  <h2>What Moved</h2>
+                  <ul>
+                    {c.whatMoved.map((i) => (
+                      <li>{i}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {c.fieldNotes.length > 0 && (
+                <div data-scroll data-delay="100ms">
+                  <h2>Field Notes</h2>
+                  <ul>
+                    {c.fieldNotes.map((i) => (
+                      <li>{i}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      c.landscapeCover && (
+        <section class="section split">
+          <div class="container split-grid">
+            <figure class="split-media" data-scroll>
+              <Img
+                class="img-fx"
+                image={c.landscapeCover}
+                width={1000}
+                height={560}
+              />
+            </figure>
+            <div class="split-copy" data-scroll data-delay="100ms">
+              <h2>{c.title}</h2>
+              {c.developer && <p class="split-byline">{c.developer}</p>}
+              {c.description && <p>{c.description}</p>}
+              {steam && (
+                <a class="btn" {...steam}>
+                  {c.splitCta}
+                </a>
+              )}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      c.closingHeading && (
+        <section class="section statement statement--centered">
+          <div class="container statement-grid">
+            <h2 data-scroll>{c.closingHeading}</h2>
+            <div class="statement-body" data-scroll data-delay="100ms">
+              {c.closingBody && <p>{c.closingBody}</p>}
+              {c.closingCta && (
+                <a class="btn" href={c.closingCta.href}>
+                  {c.closingCta.label}
+                </a>
+              )}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </main>
+</BaseLayout>

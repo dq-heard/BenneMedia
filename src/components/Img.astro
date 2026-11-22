@@ -1,0 +1,29 @@
+---
+import type { Img } from "../lib/home";
+import { urlFor } from "../lib/sanity";
+interface Props {
+  image: Img;
+  width: number;
+  height: number;
+  class?: string;
+  eager?: boolean;
+}
+const { image, width, height, class: cls, eager = false } = Astro.props;
+const src = urlFor(image as any)
+  .width(width)
+  .height(height)
+  .fit("crop")
+  .auto("format")
+  .url();
+const alt = image.decorative ? "" : (image.alt ?? "");
+---
+
+<img
+  class={cls}
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  loading={eager ? undefined : "lazy"}
+  fetchpriority={eager ? "high" : undefined}
+/>
