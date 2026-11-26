@@ -211,6 +211,12 @@ export const caseStudy = defineType({
       rows: 3,
       group: "results",
     }),
+    defineField({
+      name: "closingCta",
+      title: "Closing Button",
+      type: "link",
+      group: "results",
+    }),
 
     // ---- Cards & previews ----
     defineField({

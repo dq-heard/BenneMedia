@@ -1,0 +1,12 @@
+{
+  "name": "bms-debounce",
+  "main": "index.js",
+  "compatibility_date": "2025-01-01",
+  "triggers": { "crons": ["* * * * *"] },
+  "kv_namespaces": [
+    {
+      "binding": "DEBOUNCE_BMS",
+      "id": "729c74d0793342c6a118bbdfd6cb635e"
+    }
+  ]
+}

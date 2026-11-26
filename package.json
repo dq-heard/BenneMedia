@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@sanity/vision": "^6.24.0",
-    "sanity": "^6.24.0"
+    "sanity": "^6.24.0",
+    "wrangler": "^4.168.0"
   }
 }

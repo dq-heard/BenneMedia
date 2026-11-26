@@ -28,6 +28,7 @@ interface Raw {
   description?: string;
   closingHeading?: string;
   closingBody?: string;
+  closingCta?: LinkData;
   seo?: { title?: string; description?: string; image?: Img };
   defaults?: {
     closingHeading?: string;
@@ -51,7 +52,7 @@ export async function getCaseStudy(slug: string) {
       tagline, challenge, stats[]{label, value}, goal, strategy,
       gallery[]{image${IMG}, size},
       whatMoved, fieldNotes, landscapeCover${IMG}, description,
-      closingHeading, closingBody, seo,
+      closingHeading, closingBody, closingCta, seo,
       "defaults": *[_type == "siteSettings"][0]{closingHeading, closingBody, defaultCta${LINK_FIELDS}}
     }`,
     { slug }
@@ -78,6 +79,6 @@ export async function getCaseStudy(slug: string) {
       c.wishlistCtaText || (released ? "Play on Steam" : "Wishlist on Steam"),
     closingHeading: c.closingHeading || c.defaults?.closingHeading,
     closingBody: c.closingBody || c.defaults?.closingBody,
-    closingCta: link(c.defaults?.defaultCta),
+    closingCta: link(c.closingCta) || link(c.defaults?.defaultCta),
   };
 }

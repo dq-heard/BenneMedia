@@ -8,7 +8,6 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Img from "../../components/Img.astro";
 import { getCaseStudy, getCaseStudySlugs } from "../../lib/case-study";
-import { getBreadcrumbSchema } from "../../lib/schema";
 
 export async function getStaticPaths() {
   return (await getCaseStudySlugs()).map((slug) => ({ params: { slug } }));

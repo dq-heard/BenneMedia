@@ -12,6 +12,9 @@ const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
   ""
 );
 
+// Define an array of paths to exclude from the sitemap
+const EXCLUDED_ROUTES = ["/studio"];
+
 export default defineConfig({
   site: "https://bennemediasolutions.com",
   adapter: cloudflare(),
@@ -23,6 +26,11 @@ export default defineConfig({
       useCdn: false,
     }),
     react(),
-    sitemap({ filter: (page) => !page.endsWith("/packages/") }),
+    sitemap({
+      filter: (page) => {
+        if (page.endsWith("/packages")) return true;
+        return !EXCLUDED_ROUTES.some((route) => page.startsWith(route));
+      },
+    }),
   ],
 });
