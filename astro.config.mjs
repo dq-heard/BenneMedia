@@ -13,6 +13,7 @@ const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
 );
 
 // Define an array of paths to exclude from the sitemap
+const EXCLUDED_EXACT_PATHS = ["/packages"];
 const EXCLUDED_ROUTES = ["/studio"];
 
 export default defineConfig({
@@ -28,8 +29,15 @@ export default defineConfig({
     react(),
     sitemap({
       filter: (page) => {
-        if (page.endsWith("/packages")) return true;
-        return !EXCLUDED_ROUTES.some((route) => page.startsWith(route));
+        const pathname = new URL(page).pathname.replace(/\/+$/, "") || "/";
+
+        if (EXCLUDED_EXACT_PATHS.includes(pathname)) {
+          return false;
+        }
+
+        return !EXCLUDED_ROUTES.some(
+          (route) => pathname === route || pathname.startsWith(`${route}/`)
+        );
       },
     }),
   ],
