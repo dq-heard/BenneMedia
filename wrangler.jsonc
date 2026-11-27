@@ -2,7 +2,5 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "bennemedia",
   "compatibility_date": "2026-10-30",
-  "kv_namespaces": [
-    { "binding": "SESSION", "id": "1d87e3e4156a4ad5be9d4d4d6c1ba355" },
-  ],
+  "kv_namespaces": [{ "binding": "SESSION" }],
 }
