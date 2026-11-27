@@ -52,7 +52,7 @@ export async function getCaseStudy(slug: string) {
       tagline, challenge, stats[]{label, value}, goal, strategy,
       gallery[]{image${IMG}, size},
       whatMoved, fieldNotes, landscapeCover${IMG}, description,
-      closingHeading, closingBody, closingCta, seo,
+      closingHeading, closingBody, closingCta${LINK_FIELDS}, seo,
       "defaults": *[_type == "siteSettings"][0]{closingHeading, closingBody, defaultCta${LINK_FIELDS}}
     }`,
     { slug }
