@@ -7,6 +7,10 @@
       "name": "EMAIL",
     },
   ],
+  "vars": {
+    "CONTACT_FROM": "Junae Benne <junaebenne@gmail.com>",
+    "CONTACT_TO": "junaebenne@gmail.com",
+  },
   "images": {
     "binding": "IMAGES",
   },
