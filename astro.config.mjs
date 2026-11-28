@@ -1,4 +1,4 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import cloudflare from "@astrojs/cloudflare";
 import sanity from "@sanity/astro";
 import react from "@astrojs/react";
@@ -19,6 +19,12 @@ const EXCLUDED_ROUTES = ["/studio"];
 export default defineConfig({
   site: "https://bennemediasolutions.com",
   adapter: cloudflare(),
+  env: {
+    schema: {
+      CONTACT_TO: envField.string({ context: "server", access: "secret" }),
+      CONTACT_FROM: envField.string({ context: "server", access: "secret" }),
+    },
+  },
   integrations: [
     sanity({
       projectId: PUBLIC_SANITY_PROJECT_ID,

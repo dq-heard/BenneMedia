@@ -1,7 +1,9 @@
-// POST /api/contact — sends the contact form via Resend.
-// Env vars (.env locally, Cloudflare in production): RESEND_API_KEY, CONTACT_TO, CONTACT_FROM
+// POST /api/contact — sends the contact form email.
+// Sends via Cloudflare Email Service (Worker binding "EMAIL").
+// Env vars: CONTACT_TO (verified destination), CONTACT_FROM (address on the onboarded domain)
 import type { APIRoute } from "astro";
-// import { RESEND_API_KEY, CONTACT_TO, CONTACT_FROM } from "astro:env/server";
+import { env } from "cloudflare:workers";
+import { CONTACT_TO, CONTACT_FROM } from "astro:env/server";
 
 export const prerender = false;
 
@@ -56,21 +58,18 @@ export const POST: APIRoute = async ({ request }) => {
     <p><strong>Message:</strong></p>
     <p>${esc(message).replace(/\n/g, "<br />")}</p>`;
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      //   Authorization: `Bearer ${RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    // body: JSON.stringify({
-    //   from: CONTACT_FROM,
-    //   to: CONTACT_TO,
-    //   reply_to: email,
-    //   subject,
-    //   html,
-    // }),
-  });
+  try {
+    await env.EMAIL.send({
+      from: CONTACT_FROM,
+      to: CONTACT_TO,
+      replyTo: email,
+      subject,
+      html,
+    });
+  } catch (err) {
+    console.error("Contact send failed", err);
+    return json({ error: "Could not send" }, 502);
+  }
 
-  if (!res.ok) return json({ error: "Could not send" }, 502);
   return json({ ok: true });
 };
